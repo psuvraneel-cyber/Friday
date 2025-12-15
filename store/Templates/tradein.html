@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade-In Program | AutoElite Motors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a2a3a;
+            --secondary: #ff5e3a;
+            --accent: #4a6cf7;
+            --light: #f8fafc;
+            --dark: #121a24;
+            --success: #27ae60;
+            --gray: #94a3b8;
+            --light-gray: #f1f5f9;
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, #2c3e50 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, #ff7e5f 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, #6a82fb 100%);
+            --card-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #334155;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #2c3e50 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .logo i {
+            color: var(--secondary);
+        }
+        
+        nav {
+            background-color: white;
+            padding: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        nav li {
+            margin: 0 5px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: var(--transition);
+            font-size: 1.05rem;
+        }
+        
+        nav a:hover, nav a.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(26, 42, 58, 0.85), rgba(26, 42, 58, 0.85)), url('https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            margin: 40px 0;
+            border-radius: 15px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 34px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-align: center;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 10px 25px rgba(44, 62, 80, 0.25);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(44, 62, 80, 0.35);
+        }
+        
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            color: white;
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(231, 76, 60, 0.4);
+        }
+        
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .section h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--secondary);
+            font-size: 2.2rem;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section h2 i {
+            color: var(--secondary);
+        }
+        
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .step {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            background: var(--secondary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            box-shadow: 0 5px 15px rgba(255, 94, 58, 0.3);
+        }
+        
+        .step i {
+            font-size: 3.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        .step h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .step p {
+            color: var(--gray);
+        }
+        
+        .valuation-form {
+            background: var(--light);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 18px 25px;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            background-color: white;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.2);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .valuation-result {
+            background: #d4edda;
+            color: #155724;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .valuation-result.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .valuation-amount {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 20px 0;
+            color: var(--primary);
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .benefit {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        
+        .benefit i {
+            color: var(--secondary);
+            font-size: 2rem;
+            margin-top: 5px;
+        }
+        
+        .benefit-content h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .benefit-content p {
+            color: var(--gray);
+        }
+        
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .testimonial {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .testimonial::before {
+            content: '"';
+            font-size: 6rem;
+            color: var(--secondary);
+            opacity: 0.1;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+            font-family: Georgia, serif;
+        }
+        
+        .testimonial p {
+            margin-bottom: 25px;
+            font-style: italic;
+            color: var(--primary);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .testimonial .author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .testimonial .author img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary);
+        }
+        
+        .testimonial .author-info {
+            line-height: 1.4;
+        }
+        
+        .testimonial .author-info strong {
+            color: var(--primary);
+            display: block;
+        }
+        
+        .testimonial .author-info span {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        .faq-section {
+            margin: 40px 0;
+        }
+        
+        .accordion {
+            margin: 25px 0;
+        }
+        
+        .accordion-item {
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .accordion-item:hover {
+            border-color: var(--accent);
+        }
+        
+        .accordion-header {
+            background: var(--light);
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .accordion-content.active {
+            padding: 25px;
+            max-height: 500px;
+        }
+        
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            color: var(--secondary);
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+        }
+        
+        .footer-section p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--secondary);
+            transform: translateX(10px);
+        }
+        
+        .footer-contact {
+            list-style: none;
+        }
+        
+        .footer-contact li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .footer-contact i {
+            color: var(--secondary);
+            font-size: 1.3rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+            font-size: 1.3rem;
+        }
+        
+        .social-icons a:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .process-steps, .benefits, .testimonials {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .valuation-form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-car"></i>
+                <span>AutoElite Motors</span>
+            </div>
+            <p>Get the best value for your vehicle with our trade-in program</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'car_financing' %}">Car Financing</a></li>
+                <li><a href="{% url 'maintenance' %}">Maintenance</a></li>
+                <li><a href="{% url 'tradein' %}" class="active">Trade-In</a></li>
+                <li><a href="{% url 'extended_warranty' %}">Extended Warranty</a></li>
+                <li><a href="{% url 'contact_support' %}">Contact Support</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="hero">
+            <h1>Vehicle Trade-In Program</h1>
+            <p>Get the best value for your current vehicle when you trade it in for a new one from our inventory</p>
+            <a href="#valuation" class="btn btn-secondary">Get Your Valuation</a>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-sync-alt"></i> Simple Trade-In Process</h2>
+            <p>Our trade-in process is designed to be simple, transparent, and hassle-free. Get the best value for your vehicle in just a few easy steps.</p>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <i class="fas fa-laptop"></i>
+                    <h3>Get an Instant Valuation</h3>
+                    <p>Use our online tool to get an immediate estimate of your vehicle's value.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Schedule Appraisal</h3>
+                    <p>Book an appointment for a professional appraisal at our dealership.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h3>Receive Your Offer</h3>
+                    <p>Get a competitive, no-obligation offer for your vehicle.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <i class="fas fa-handshake"></i>
+                    <h3>Apply to New Vehicle</h3>
+                    <p>Use your trade-in value as credit toward your next vehicle purchase.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="valuation">
+            <h2><i class="fas fa-calculator"></i> Value Your Trade-In</h2>
+            <p>Get an instant estimate of your vehicle's trade-in value using our advanced valuation tool.</p>
+            
+            <div class="valuation-form">
+                <form id="valuationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="year">Vehicle Year</label>
+                            <select id="year" required>
+                                <option value="">Select Year</option>
+                                <!-- Options will be populated by JavaScript -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="make">Vehicle Make</label>
+                            <select id="make" required disabled>
+                                <option value="">Select Make</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="model">Vehicle Model</label>
+                            <select id="model" required disabled>
+                                <option value="">Select Model</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="trim">Trim Level</label>
+                            <select id="trim">
+                                <option value="">Select Trim</option>
+                                <option value="SL">SL</option>
+                                <option value="SV">SV</option>
+                                <option value="LS">LS</option>
+                                <option value="LT">LT</option>
+                                <option value="RS">RS</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="mileage">Mileage</label>
+                            <input type="number" id="mileage" placeholder="Enter mileage" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="condition">Vehicle Condition</label>
+                            <select id="condition" required>
+                                <option value="">Select Condition</option>
+                                <option value="excellent">Excellent</option>
+                                <option value="good">Good</option>
+                                <option value="fair">Fair</option>
+                                <option value="poor">Poor</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="features">Additional Features</label>
+                        <textarea id="features" rows="3" placeholder="List any special features or upgrades"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-secondary btn-large btn-block">Get Trade-In Value</button>
+                </form>
+            </div>
+            
+            <div class="valuation-result" id="valuationResult">
+                <i class="fas fa-check-circle"></i>
+                <h3>Your Estimated Trade-In Value</h3>
+                <p class="valuation-amount">$<span id="estimatedValue">0</span></p>
+                <p>This is an estimate based on the information provided. Final value will be determined after a physical inspection.</p>
+                <a href="{% url 'contact_support' %}" class="btn btn-primary">Schedule Appraisal</a>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-star"></i> Benefits of Trading In</h2>
+            <p>Trading in your vehicle with us offers several advantages over selling privately.</p>
+            
+            <div class="benefits">
+                <div class="benefit">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <div class="benefit-content">
+                        <h3>Tax Savings</h3>
+                        <p>In most states, you only pay sales tax on the difference between your trade-in value and the new vehicle price.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit">
+                    <i class="fas fa-clock"></i>
+                    <div class="benefit-content">
+                        <h3>Time Savings</h3>
+                        <p>No need to deal with listings, test drives, or negotiations with strangers.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="benefit-content">
+                        <h3>Security</h3>
+                        <p>Avoid the risks associated with meeting strangers or handling large sums of money.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit">
+                    <i class="fas fa-exchange-alt"></i>
+                    <div class="benefit-content">
+                        <h3>Convenience</h3>
+                        <p>Handle both transactions at once - trade in your old vehicle and drive away in a new one.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit">
+                    <i class="fas fa-tag"></i>
+                    <div class="benefit-content">
+                        <h3>Competitive Offers</h3>
+                        <p>We provide market-value offers based on current auction data and demand.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <div class="benefit-content">
+                        <h3>Instant Equity</h3>
+                        <p>Apply your trade-in value directly to your down payment, reducing your financing needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-comments"></i> Customer Testimonials</h2>
+            <p>Hear what our customers have to say about their trade-in experience with us.</p>
+            
+            <div class="testimonials">
+                <div class="testimonial">
+                    <p>"I was amazed at how much my old car was worth. The process was quick and easy, and the value I received was applied directly to my new vehicle purchase."</p>
+                    <div class="author">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><rect width='60' height='60' fill='%231a2a3a'/><text x='30' y='40' font-family='Arial' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'>MR</text></svg>" alt="Michael Rodriguez">
+                        <div class="author-info">
+                            <strong>Michael Rodriguez</strong>
+                            <span>Traded 2018 Honda Civic</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <p>"The online valuation tool was surprisingly accurate. The final offer matched the estimate almost exactly. Highly recommend their trade-in program!"</p>
+                    <div class="author">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><rect width='60' height='60' fill='%23ff5e3a'/><text x='30' y='40' font-family='Arial' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'>SJ</text></svg>" alt="Sarah Johnson">
+                        <div class="author-info">
+                            <strong>Sarah Johnson</strong>
+                            <span>Traded 2016 Toyota Camry</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <p>"I was worried about the condition of my truck, but they still gave me a fair offer. The entire process took less than an hour at the dealership."</p>
+                    <div class="author">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><rect width='60' height='60' fill='%234a6cf7'/><text x='30' y='40' font-family='Arial' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'>TW</text></svg>" alt="Thomas Wilson">
+                        <div class="author-info">
+                            <strong>Thomas Wilson</strong>
+                            <span>Traded 2015 Ford F-150</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-question-circle"></i> Trade-In FAQs</h2>
+            
+            <div class="faq-section">
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>How is my trade-in value determined?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>We determine your trade-in value based on several factors including your vehicle's year, make, model, mileage, condition, optional features, and current market demand. We use industry-standard valuation tools and current auction data to ensure you receive a fair market value offer.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>What documents do I need for a trade-in?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>You'll need your vehicle title, registration, driver's license, and any loan payoff information if you still owe money on the vehicle. If the title is held by a lienholder, we can help you navigate the payoff process.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Can I trade in a vehicle that I still owe money on?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Yes, you can trade in a vehicle that has an outstanding loan balance. We'll pay off the remaining balance to your lender directly and apply any positive equity to your new vehicle purchase. If you owe more than the vehicle's value (negative equity), we can discuss options to roll that amount into your new financing.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>How does trading in save me money on taxes?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>In most states, you only pay sales tax on the difference between your trade-in value and the purchase price of your new vehicle. For example, if you buy a $30,000 vehicle and receive $10,000 for your trade-in, you'll only pay sales tax on $20,000, resulting in significant savings.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AutoElite Motors</h3>
+                    <p>Your trusted partner for all automotive needs, from financing to maintenance and beyond.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="{% url 'car_financing' %}"><i class="fas fa-chevron-right"></i> Car Financing</a></li>
+                        <li><a href="{% url 'maintenance' %}"><i class="fas fa-chevron-right"></i> Maintenance</a></li>
+                        <li><a href="{% url 'tradein' %}"><i class="fas fa-chevron-right"></i> Trade-In</a></li>
+                        <li><a href="{% url 'extended_warranty' %}"><i class="fas fa-chevron-right"></i> Extended Warranty</a></li>
+                        <li><a href="{% url 'contact_support' %}"><i class="fas fa-chevron-right"></i> Contact Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Automotive Way, Detroit, MI 48201</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>(123) 456-7890</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>info@autoelite.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Mon-Fri: 9:00 AM - 8:00 PM | Sat-Sun: 10:00 AM - 6:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 AutoElite Motors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set up accordion functionality
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const isActive = content.classList.contains('active');
+                
+                // Close all accordion items
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                document.querySelectorAll('.accordion-header i').forEach(icon => {
+                    icon.className = 'fas fa-chevron-down';
+                });
+                
+                // Open clicked item if it wasn't already active
+                if (!isActive) {
+                    content.classList.add('active');
+                    this.querySelector('i').className = 'fas fa-chevron-up';
+                }
+            });
+        });
+        
+        // Function to fetch data from the server
+        async function fetchData(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return null;
+            }
+        }
+        
+        // Populate year dropdown from database
+        async function populateYears() {
+            const yearSelect = document.getElementById('year');
+            // Fetch years from your Django backend
+            const years = await fetchData('/api/tradein/years/');
+            
+            if (years && years.length > 0) {
+                years.forEach(year => {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    yearSelect.appendChild(option);
+                });
+            } else {
+                // Fallback to hardcoded years if API fails or returns empty
+                const currentYear = new Date().getFullYear();
+                for (let year = currentYear; year >= 2010; year--) {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    yearSelect.appendChild(option);
+                }
+            }
+        }
+        
+        // Update make dropdown based on selected year
+        document.getElementById('year').addEventListener('change', async function() {
+            const year = this.value;
+            const makeSelect = document.getElementById('make');
+            const modelSelect = document.getElementById('model');
+            
+            // Reset dependent dropdowns
+            makeSelect.innerHTML = '<option value="">Select Make</option>';
+            modelSelect.innerHTML = '<option value="">Select Model</option>';
+            
+            if (year) {
+                // Fetch makes for the selected year from your Django backend
+                const makes = await fetchData(`/api/tradein/makes/?year=${year}`);
+                
+                if (makes && makes.length > 0) {
+                    makeSelect.disabled = false;
+                    
+                    // Populate makes
+                    makes.forEach(make => {
+                        const option = document.createElement('option');
+                        option.value = make;
+                        option.textContent = make;
+                        makeSelect.appendChild(option);
+                    });
+                } else {
+                    makeSelect.disabled = true;
+                    modelSelect.disabled = true;
+                }
+            } else {
+                makeSelect.disabled = true;
+                modelSelect.disabled = true;
+            }
+        });
+        
+        // Update model dropdown based on selected make
+        document.getElementById('make').addEventListener('change', async function() {
+            const year = document.getElementById('year').value;
+            const make = this.value;
+            const modelSelect = document.getElementById('model');
+            
+            // Reset model dropdown
+            modelSelect.innerHTML = '<option value="">Select Model</option>';
+            
+            if (year && make) {
+                // Fetch models for the selected year and make from your Django backend
+                const models = await fetchData(`/api/tradein/models/?year=${year}&make=${encodeURIComponent(make)}`);
+                
+                if (models && models.length > 0) {
+                    modelSelect.disabled = false;
+                    
+                    // Populate models
+                    models.forEach(model => {
+                        const option = document.createElement('option');
+                        option.value = model;
+                        option.textContent = model;
+                        modelSelect.appendChild(option);
+                    });
+                } else {
+                    modelSelect.disabled = true;
+                }
+            } else {
+                modelSelect.disabled = true;
+            }
+        });
+        
+        // Form submission handling
+        const valuationForm = document.getElementById('valuationForm');
+        const valuationResult = document.getElementById('valuationResult');
+        
+        valuationForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const year = document.getElementById('year').value;
+            const make = document.getElementById('make').value;
+            const model = document.getElementById('model').value;
+            const mileage = document.getElementById('mileage').value;
+            const condition = document.getElementById('condition').value;
+            
+            // Basic validation
+            if (!year || !make || !model || !mileage || !condition) {
+                valuationResult.classList.add('error');
+                valuationResult.innerHTML = `
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h3>Validation Error</h3>
+                    <p>Please fill in all required fields to get an accurate valuation.</p>
+                `;
+                valuationResult.style.display = 'block';
+                return;
+            }
+            
+            // Prepare data to send to server
+            const valuationData = {
+                year: year,
+                make: make,
+                model: model,
+                mileage: mileage,
+                condition: condition,
+                features: document.getElementById('features').value
+            };
+            
+            try {
+                const response = await fetch('/api/tradein/valuate/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken') // For Django CSRF protection
+                    },
+                    body: JSON.stringify(valuationData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Valuation request failed');
+                }
+                
+                const data = await response.json();
+                
+                // Display result
+                document.getElementById('estimatedValue').textContent = data.estimatedValue.toLocaleString();
+                valuationResult.classList.remove('error');
+                valuationResult.innerHTML = `
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Your Estimated Trade-In Value</h3>
+                    <p class="valuation-amount">$${data.estimatedValue.toLocaleString()}</p>
+                    <p>This is an estimate based on the information provided. Final value will be determined after a physical inspection.</p>
+                    <a href="{% url 'contact_support' %}" class="btn btn-primary">Schedule Appraisal</a>
+                `;
+                valuationResult.style.display = 'block';
+                
+                // Scroll to result
+                valuationResult.scrollIntoView({ behavior: 'smooth' });
+            } catch (error) {
+                console.error('Error:', error);
+                valuationResult.classList.add('error');
+                valuationResult.innerHTML = `
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h3>Valuation Error</h3>
+                    <p>There was an error calculating your trade-in value. Please try again later.</p>
+                `;
+                valuationResult.style.display = 'block';
+            }
+        });
+        
+        // Helper function to get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        // Add animation to elements on scroll
+        const animatedElements = document.querySelectorAll('.step, .benefit, .testimonial');
+        
+        function checkScroll() {
+            animatedElements.forEach(element => {
+                const position = element.getBoundingClientRect();
+                
+                // If element is in viewport
+                if (position.top < window.innerHeight - 100) {
+                    element.style.opacity = 1;
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        
+        // Initialize elements with hidden state
+        animatedElements.forEach(element => {
+            element.style.opacity = 0;
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        });
+        
+        // Check scroll position on load and scroll
+        window.addEventListener('load', checkScroll);
+        window.addEventListener('scroll', checkScroll);
+        
+        // Initial check
+        checkScroll();
+        
+        // Populate years on page load
+        populateYears();
+    });
+</script>
+        
+</body>
+</html>

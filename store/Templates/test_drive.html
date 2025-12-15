@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+{% load humanize %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoElite - Test Drive Scheduling</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+        :root {
+            --primary: #1a2a36;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --gray: #95a5a6;
+            --dark: #2c3e50;
+            --gold: #f1c40f;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a2a36 0%, #0d1a24 100%);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80') no-repeat center center fixed;
+            background-size: cover;
+            opacity: 0.15;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(26, 42, 54, 0.95);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-bottom: 2px solid var(--accent);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--accent);
+            margin-left: 4px;
+        }
+        
+        .logo::before {
+            content: "🚘";
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .breadcrumbs {
+            padding: 15px 0;
+            font-size: 14px;
+            color: var(--gray);
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .breadcrumbs a {
+            color: var(--light);
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            padding: 0 5px;
+        }
+        
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+        
+        .breadcrumbs span {
+            margin: 0 8px;
+            color: var(--gray);
+        }
+        
+        .test-drive-container {
+            display: flex;
+            gap: 40px;
+            margin: 40px 0;
+        }
+        
+        .form-section {
+            flex: 1;
+            background: rgba(26, 42, 54, 0.85);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+        
+        .form-section:hover {
+            box-shadow: 0 15px 35px rgba(231, 76, 60, 0.2);
+        }
+        
+        .form-section h2 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--accent);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-section h2::before {
+            content: "📅";
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        
+        .car-info-section {
+            flex: 1;
+            background: rgba(26, 42, 54, 0.85);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+        
+        .car-info-section:hover {
+            box-shadow: 0 15px 35px rgba(52, 152, 219, 0.2);
+        }
+        
+        .car-gallery {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .car-gallery img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .car-gallery img:hover {
+            transform: scale(1.03);
+        }
+        
+        .car-info h1 {
+            font-size: 24px;
+            margin: 15px 0 10px;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--light);
+        }
+        
+        .car-price {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        
+        .original-price {
+            font-size: 18px;
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+        
+        .discount-badge {
+            background: var(--accent);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .quick-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            background: rgba(44, 62, 80, 0.6);
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .detail-item:hover {
+            background: rgba(44, 62, 80, 0.8);
+            transform: translateY(-3px);
+        }
+        
+        .detail-item i {
+            color: var(--accent);
+            margin-right: 10px;
+            font-size: 18px;
+            width: 25px;
+        }
+        
+        .detail-item span {
+            font-weight: 500;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--light);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 16px;
+            font-family: 'Roboto', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.3);
+        }
+        
+        .datetime-container {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .datetime-container .form-group {
+            flex: 1;
+        }
+        
+        .btn {
+            padding: 16px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition);
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent) 0%, #c0392b 100%);
+            color: white;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-accent:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.6);
+        }
+        
+        .btn-accent:active {
+            transform: translateY(1px);
+        }
+        
+        .btn-accent::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+            transition: all 0.8s;
+        }
+        
+        .btn-accent:hover::after {
+            left: 120%;
+        }
+        
+        .btn i {
+            margin-right: 10px;
+        }
+        
+        .confirmation {
+            display: none;
+            background: rgba(26, 42, 54, 0.95);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .confirmation i {
+            font-size: 60px;
+            color: #2ecc71;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .confirmation h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+            color: #2ecc71;
+        }
+        
+        .confirmation p {
+            margin-bottom: 25px;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        
+        .confirmation .btn {
+            background-color: var(--primary);
+            color: white;
+            border: 2px solid var(--accent);
+            padding: 12px 30px;
+        }
+        
+        .confirmation .btn:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            font-size: 18px;
+            background: rgba(44, 62, 80, 0.3);
+            border-radius: 8px;
+        }
+        
+        .loading i {
+            font-size: 24px;
+            margin-right: 10px;
+            color: var(--accent);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .footer {
+            background: rgba(26, 42, 54, 0.95);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            border-top: 2px solid var(--accent);
+            backdrop-filter: blur(10px);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-section h4 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--light);
+            position: relative;
+            padding-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-links i {
+            width: 24px;
+            color: var(--accent);
+            margin-right: 10px;
+        }
+        
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 14px;
+            max-width: 1200px;
+            margin: 30px auto 0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .test-drive-container {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .nav-links li {
+                margin: 5px 10px;
+            }
+            
+            .quick-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .datetime-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .form-section, .car-info-section {
+                padding: 20px;
+            }
+            
+            .confirmation {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+    <header class="header">
+        <div class="nav">
+            <a href="#" class="logo">Auto<span>Elite</span></a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Inventory</a></li>
+                <li><a href="#">Test Drive</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumbs">
+            <a href="{% url 'home' %}">Home</a> &raquo;
+            <a href="{% url 'car_list' %}">Back</a> &raquo;
+            <a href="{% url 'about' %}">About Us</a> &raquo;
+            <a href="{% url 'contact' %}">Contact</a> &raquo;
+            <span id="breadcrumb-car">Select a Vehicle</span>
+        </div>
+        
+        <div class="test-drive-container">
+            <div class="form-section">
+                <h2>Schedule Your Test Drive</h2>
+                <form id="test-drive-form" method="POST" action="{% url 'schedule_test_drive' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="full-name">Full Name *</label>
+                        <input type="text" id="full-name" name="customer_name" required placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="customer_email" required placeholder="Enter your email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="customer_phone" required placeholder="Enter your phone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="car-select">Select Vehicle *</label>
+                        <select id="car-select" name="car" required>
+                            <option value="">Select a vehicle</option>
+                            {% for car in cars %}
+                            <option value="{{ car.id }}">{{ car.year }} {{ car.make }} {{ car.model }} - {{ car.fuel_type }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="datetime-container">
+                        <div class="form-group">
+                            <label for="test-date">Preferred Date *</label>
+                            <input type="date" id="test-date" name="scheduled_date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="test-time">Preferred Time *</label>
+                            <select id="test-time" name="scheduled_time" required>
+                                <option value="">Select time</option>
+                                <option value="09:00">09:00 AM</option>
+                                <option value="10:00" selected>10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="12:00">12:00 PM</option>
+                                <option value="13:00">01:00 PM</option>
+                                <option value="14:00">02:00 PM</option>
+                                <option value="15:00">03:00 PM</option>
+                                <option value="16:00">04:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Special Requests or Notes</label>
+                        <textarea id="notes" name="notes" rows="4" placeholder="Any special requests or additional information"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-accent">
+                        <i class="fas fa-calendar-check"></i> Schedule Test Drive
+                    </button>
+                </form>
+            </div>
+            
+            <div class="car-info-section">
+                <div id="loading-section" class="loading" style="display: none;">
+                    <i class="fas fa-spinner"></i> Loading car details...
+                </div>
+                
+                <div id="car-info-content">
+                    <div class="car-gallery">
+                        <div class="main-image">
+                            <img id="car-image" src="" alt="Car image">
+                        </div>
+                    </div>
+                    
+                    <div class="car-info">
+                        <h1 id="car-title"></h1>
+                        <div class="car-price">
+                            <span id="car-price" class="price"></span>
+                            <span id="original-price" class="original-price" style="display:none;"></span>
+                            <span id="discount-badge" class="discount-badge" style="display:none;"></span>
+                        </div>
+                        
+                        <div class="quick-details">
+                            <div class="detail-item">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span id="car-mileage"></span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-car"></i>
+                                <span id="car-type"></span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-gas-pump"></i>
+                                <span id="car-fuel"></span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-cog"></i>
+                                <span id="car-transmission"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="confirmation" id="confirmation">
+            <i class="fas fa-check-circle"></i>
+            <h2>Test Drive Scheduled!</h2>
+            <p>Thank you <span id="confirm-name"></span>, your test drive for the <span id="confirm-car"></span> has been scheduled.</p>
+            <p>Date: <span id="confirm-date"></span> at <span id="confirm-time"></span></p>
+            <p>We've sent a confirmation email to <span id="confirm-email"></span></p>
+            <p>A representative will contact you shortly to confirm your appointment.</p>
+            <a href="{% url 'home' %}" class="btn">
+                <i class="fas fa-car"></i> Browse More Vehicles
+            </a>
+        </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Schedule Test Drive</a></li>
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Pre-Owned Collection</a></li>
+                    <li><a href="#">Finance Application</a></li>
+                    <li><a href="#">Service Center</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Auto Street, Mumbai, India</li>
+                    <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                    <li><i class="fas fa-envelope"></i> testdrive@autoelite.com</li>
+                    <li><i class="fas fa-clock"></i> Mon-Fri: 9AM - 8PM, Sat: 10AM - 6PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Auto Elite. All rights reserved. | Professional Test Drive Booking System</p>
+        </div>
+    </footer>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('test-drive-form');
+        const confirmation = document.getElementById('confirmation');
+        const carSelect = document.getElementById('car-select');
+        const loadingSection = document.getElementById('loading-section');
+        const carInfoContent = document.getElementById('car-info-content');
+        const breadcrumbCar = document.getElementById('breadcrumb-car');
+        
+        // Get all car data from Django template
+        const carsData = [
+            {% for car in cars %}
+            {
+                id: {{ car.id }},
+                make: "{{ car.make }}",
+                model: "{{ car.model }}",
+                year: "{{ car.year }}",
+                mileage: {{ car.mileage }},
+                fuel_type: "{{ car.fuel_type }}",
+                transmission: "{{ car.transmission }}",
+                car_type: "{{ car.car_type }}",
+                price: {{ car.price }},
+                discount: {{ car.discount|default:0 }},
+                discounted_price: {{ car.discounted_price|default:0 }},
+                image_url: "{{ car.image_url }}",
+                description: "{{ car.description|escapejs }}"
+            }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+
+        // Populate car dropdown and show first car by default
+        function initializeCarSelection() {
+            // Show loading initially
+            loadingSection.style.display = 'flex';
+            carInfoContent.style.display = 'none';
+            
+            // Show first car by default if available
+            if (carsData.length > 0) {
+                updateCarInfo(carsData[0]);
+                breadcrumbCar.textContent = `${carsData[0].year} ${carsData[0].make} ${carsData[0].model}`;
+                
+                // Set default selected car in dropdown
+                carSelect.value = carsData[0].id;
+            } else {
+                carInfoContent.innerHTML = '<p>No cars available</p>';
+                loadingSection.style.display = 'none';
+                carInfoContent.style.display = 'block';
+            }
+        }
+        
+        // Update car info display
+        function updateCarInfo(car) {
+            if (!car) return;
+            
+            // Set car image
+            document.getElementById('car-image').src = car.image_url;
+            document.getElementById('car-image').alt = `${car.year} ${car.make} ${car.model}`;
+            
+            // Set car title
+            document.getElementById('car-title').textContent = `${car.year} ${car.make} ${car.model}`;
+            
+            // Update price display
+            const priceElement = document.getElementById('car-price');
+            const originalPriceElement = document.getElementById('original-price');
+            const discountBadgeElement = document.getElementById('discount-badge');
+            
+            priceElement.textContent = `$${car.price.toLocaleString('en-IN')}`;
+            
+            if (car.discount > 0) {
+                originalPriceElement.textContent = `$${car.discounted_price.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+                discountBadgeElement.textContent = `Save ${car.discount}%`;
+                discountBadgeElement.style.display = 'inline-block';
+                originalPriceElement.style.display = 'inline-block';
+            } else {
+                discountBadgeElement.style.display = 'none';
+                originalPriceElement.style.display = 'none';
+            }
+            
+            // Update specs
+            document.getElementById('car-mileage').textContent = `${car.mileage.toLocaleString('en-IN')} mi`;
+            document.getElementById('car-type').textContent = car.car_type;
+            document.getElementById('car-fuel').textContent = car.fuel_type;
+            document.getElementById('car-transmission').textContent = car.transmission;
+            
+            // Update breadcrumb
+            breadcrumbCar.textContent = `${car.year} ${car.make} ${car.model}`;
+            
+            // Hide loading, show content
+            loadingSection.style.display = 'none';
+            carInfoContent.style.display = 'block';
+        }
+        
+        // Set minimum date to today
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0];
+        document.getElementById('test-date').min = formattedDate;
+        
+        // Set default date to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tomorrowFormatted = tomorrow.toISOString().split('T')[0];
+        document.getElementById('test-date').value = tomorrowFormatted;
+        
+        // Form submission handler
+        form.addEventListener('submit', function(e) {
+            // Prevent default form submission
+            e.preventDefault();
+            
+            // Get form values
+            const fullName = document.getElementById('full-name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const selectedCarId = parseInt(carSelect.value);
+            const selectedCar = carsData.find(car => car.id === selectedCarId);
+            const carText = selectedCar ? `${selectedCar.year} ${selectedCar.make} ${selectedCar.model}` : '';
+            const testDate = document.getElementById('test-date').value;
+            const testTime = document.getElementById('test-time').value;
+            const notes = document.getElementById('notes').value;
+            
+            // Validate phone number format
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phoneRegex.test(phone)) {
+                alert('Please enter a valid 10-digit phone number');
+                return;
+            }
+            
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // Format date for display
+            const dateObj = new Date(testDate);
+            const formattedDate = dateObj.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Format time for display
+            const timeParts = testTime.split(':');
+            let hours = parseInt(timeParts[0]);
+            const minutes = timeParts[1];
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // Handle midnight
+            const formattedTime = `${hours}:${minutes} ${ampm}`;
+            
+            // Update confirmation details
+            document.getElementById('confirm-name').textContent = fullName;
+            document.getElementById('confirm-car').textContent = carText;
+            document.getElementById('confirm-date').textContent = formattedDate;
+            document.getElementById('confirm-time').textContent = formattedTime;
+            document.getElementById('confirm-email').textContent = email;
+            
+            // Create form data
+            const formData = new FormData(form);
+            
+            // Submit the form using AJAX
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                if (data.success) {
+                    // Show confirmation
+                    form.style.display = 'none';
+                    confirmation.style.display = 'block';
+                    confirmation.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    // Show server errors
+                    let errorMessage = 'There was an error:';
+                    if (data.errors) {
+                        for (const [field, errors] of Object.entries(data.errors)) {
+                            errorMessage += `\n${field}: ${errors.join(', ')}`;
+                        }
+                    } else if (data.message) {
+                        errorMessage += `\n${data.message}`;
+                    } else {
+                        errorMessage += '\nPlease check your input';
+                    }
+                    alert(errorMessage);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting your request. Please try again.');
+            });
+        });
+        
+        // Update car info when selection changes
+        carSelect.addEventListener('change', function() {
+            const selectedCarId = parseInt(this.value);
+            const selectedCar = carsData.find(car => car.id === selectedCarId);
+            
+            if (selectedCar) {
+                loadingSection.style.display = 'flex';
+                carInfoContent.style.display = 'none';
+                
+                // Simulate loading delay for demo
+                setTimeout(() => {
+                    updateCarInfo(selectedCar);
+                }, 500);
+            }
+        });
+        
+        // Initialize the page
+        initializeCarSelection();
+    });
+    </script>
+</body>
+</html>
+    

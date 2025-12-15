@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Complete Your Payment</h2>
+            <div class="order-summary">
+                <h4>Order Summary</h4>
+                <p>Total Amount: ₹{{ cart_total }}</p>
+            </div>
+            
+            <button id="rzp-button" class="btn btn-primary">Pay Now</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    document.getElementById('rzp-button').onclick = function(e){
+        // Create order first
+        fetch('/create-order/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => response.json())
+        .then(order => {
+            var options = {
+                "key": order.key_id,
+                "amount": order.amount,
+                "currency": order.currency,
+                "name": "Your Store Name",
+                "description": "Order Payment",
+                "order_id": order.order_id,
+                "handler": function (response){
+                    // Submit form with payment details
+                    var form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/payment-verification/';
+                    
+                    var csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = 'csrfmiddlewaretoken';
+                    csrfInput.value = '{{ csrf_token }}';
+                    form.appendChild(csrfInput);
+                    
+                    var paymentIdInput = document.createElement('input');
+                    paymentIdInput.type = 'hidden';
+                    paymentIdInput.name = 'razorpay_payment_id';
+                    paymentIdInput.value = response.razorpay_payment_id;
+                    form.appendChild(paymentIdInput);
+                    
+                    var orderIdInput = document.createElement('input');
+                    orderIdInput.type = 'hidden';
+                    orderIdInput.name = 'razorpay_order_id';
+                    orderIdInput.value = response.razorpay_order_id;
+                    form.appendChild(orderIdInput);
+                    
+                    var signatureInput = document.createElement('input');
+                    signatureInput.type = 'hidden';
+                    signatureInput.name = 'razorpay_signature';
+                    signatureInput.value = response.razorpay_signature;
+                    form.appendChild(signatureInput);
+                    
+                    document.body.appendChild(form);
+                    form.submit();
+                },
+                "prefill": {
+                    "name": "{{ request.user.get_full_name }}",
+                    "email": "{{ request.user.email }}",
+                    "contact": "" // Add phone field to your user model
+                },
+                "theme": {
+                    "color": "#F37254"
+                }
+            };
+            var rzp = new Razorpay(options);
+            rzp.open();
+            e.preventDefault();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
+{% endblock %}

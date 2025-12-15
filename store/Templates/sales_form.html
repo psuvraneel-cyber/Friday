@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Sales Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add Razorpay checkout script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        /* Match website theme */
+        :root {
+            --primary: #1a2a3a;
+            --secondary: #ff5e3a;
+            --accent: #4a6cf7;
+            --light: #f8fafc;
+            --dark: #121a24;
+            --success: #27ae60;
+            --warning: #ff9f43;
+            --gray: #94a3b8;
+            --light-gray: #f1f5f9;
+            --card-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, #2c3e50 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, #ff7e5f 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, #6a82fb 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+        
+        body {
+            background-color: var(--light);
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            color: #334155;
+            line-height: 1.7;
+            scroll-behavior: smooth;
+            background: linear-gradient(135deg, #f8fafc 0%, #e8eef5 100%);
+            background-attachment: fixed;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%231a2a3a' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .card {
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            border: none;
+            background: white;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-secondary);
+            z-index: 2;
+        }
+        
+        .card-header {
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 16px 16px 0 0 !important;
+            padding: 2rem 1.5rem !important;
+        }
+        
+        .card-header h5 {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 0 0.25rem rgba(74, 108, 247, 0.15);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(26, 42, 58, 0.25);
+        }
+        
+        .btn-primary:hover {
+            background: var(--gradient-secondary);
+            box-shadow: 0 6px 25px rgba(255, 94, 58, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .required-label::after {
+            content: " *";
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .car-details {
+            background: linear-gradient(135deg, rgba(74, 108, 247, 0.08) 0%, rgba(4, 110, 253, 0.08) 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--accent);
+            animation: slideInUp 0.4s ease-out;
+        }
+        
+        .car-details-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        .car-image-container {
+            text-align: center;
+        }
+        
+        .car-info-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .car-info-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 0;
+        }
+        
+        .car-info-item {
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(26, 42, 58, 0.03) 0%, rgba(74, 108, 247, 0.03) 100%);
+            border-radius: 10px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .car-info-item strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .car-info-item span {
+            color: #555;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .customer-details {
+            background: linear-gradient(135deg, rgba(74, 108, 247, 0.08) 0%, rgba(4, 110, 253, 0.08) 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--accent);
+            animation: slideInUp 0.4s ease-out;
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 2rem;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .step-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .step-progress::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #e9ecef 0%, #dee2e6 50%, #e9ecef 100%);
+            z-index: 1;
+            border-radius: 3px;
+        }
+        .step {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        .step.active {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 42, 58, 0.35);
+            transform: scale(1.1);
+        }
+        .step.completed {
+            background: linear-gradient(135deg, var(--success) 0%, #229954 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+        .step-label {
+            position: absolute;
+            top: 55px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.85rem;
+            color: #6c757d;
+            font-weight: 600;
+        }
+        .car-image {
+            max-height: 200px;
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        .car-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        .login-prompt {
+            background: linear-gradient(135deg, rgba(255, 159, 67, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
+            border-left: 4px solid var(--warning);
+            border-radius: 12px;
+            animation: slideInDown 0.4s ease-out;
+        }
+        .login-prompt h5 {
+            color: var(--warning);
+            font-weight: 700;
+        }
+        .payment-section {
+            background: linear-gradient(135deg, rgba(74, 108, 247, 0.08) 0%, rgba(4, 110, 253, 0.08) 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--accent);
+            animation: slideInUp 0.4s ease-out;
+        }
+        .razorpay-logo {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            vertical-align: text-bottom;
+            border: 0.2em solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spinner-border .75s linear infinite;
+        }
+        @keyframes spinner-border {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        .step-content {
+            animation: fadeIn 0.4s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        h5 {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .alert {
+            border-radius: 12px;
+            border: none;
+            animation: slideInDown 0.4s ease-out;
+        }
+        .badge {
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            font-weight: 600;
+        }
+        .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        input[type="text"]:disabled,
+        input[type="email"]:disabled,
+        input[type="number"]:disabled,
+        input[type="date"]:disabled,
+        select:disabled,
+        textarea:disabled {
+            background-color: #f8f9fa;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .form-control[disabled], .form-select[disabled] {
+            border-color: #dee2e6;
+        }
+        
+        .btn[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        @media (max-width: 768px) {
+            .car-details-row {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .car-info-row {
+                grid-template-columns: 1fr !important;
+            }
+            
+            body {
+                background-color: var(--light);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row mb-5">
+            <div class="col text-center">
+                <div style="margin-bottom: 1rem;">
+                    <div class="logo mb-3" style="display: inline-block;"><i class="fas fa-car"></i> AutoSales</div>
+                </div>
+                <h2 style="color: var(--primary); font-weight: 800; margin-bottom: 0.5rem; font-family: 'Montserrat', sans-serif;">Car Sales Transaction</h2>
+                <div style="width: 60px; height: 4px; background: var(--gradient-secondary); margin: 1rem auto 1.5rem; border-radius: 2px;"></div>
+                <p style="color: var(--gray); font-size: 1.1rem; margin: 0;">Complete the form below to record a new car sale</p>
+            </div>
+        </div>
+
+        <!-- Login Prompt (visible if user is not authenticated) -->
+        {% if not user.is_authenticated %}
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-10">
+                <div class="alert login-prompt">
+                    <h5><i class="fas fa-exclamation-circle me-2"></i>Authentication Required</h5>
+                    <p class="mb-1">You need to be logged in to access the sales form.</p>
+                    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-warning btn-sm mt-2">Login Here</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Progress Steps -->
+        <div class="row mb-5">
+            <div class="col">
+                <div class="step-progress">
+                    <div class="step active" id="step1">
+                        1
+                        <span class="step-label">Customer</span>
+                    </div>
+                    <div class="step" id="step2">
+                        2
+                        <span class="step-label">Vehicle</span>
+                    </div>
+                    <div class="step" id="step3">
+                        3
+                        <span class="step-label">Payment Info</span>
+                    </div>
+                    <div class="step" id="step4">
+                        4
+                        <span class="step-label">Pay</span>
+                    </div>
+                    <div class="step" id="step5">
+                        5
+                        <span class="step-label">Review</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header py-3">
+                        <h5 class="card-title mb-0"><i class="fas fa-file-invoice-dollar me-2"></i>Sales Record Form</h5>
+                    </div>
+                    <div class="card-body" style="padding: 3rem;">
+                        <!-- Display messages -->
+                        {% if messages %}
+                        <div class="mb-4">
+                            {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                <i class="fas fa-check-circle me-2"></i>{{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <form id="salesForm" method="POST" action="{% url 'record_sale' %}">
+                            {% csrf_token %}
+                            
+                            <!-- Step 1: Customer Information -->
+                            <div class="step-content" id="stepContent1">
+                                <h5 style="color: var(--primary); font-weight: 700; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid #e9ecef;"><i class="fas fa-user me-2"></i>Customer Information</h5>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="customerSelect" class="form-label required-label">Select Customer</label>
+                                        <select class="form-select" id="customerSelect" name="customer" required {% if not user.is_authenticated %}disabled{% endif %}>
+                                            <option value="">Choose a customer...</option>
+                                            {% for customer in customers %}
+                                            <option value="{{ customer.id }}" data-first-name="{{ customer.first_name }}" 
+                                                data-last-name="{{ customer.last_name }}" data-email="{{ customer.email }}"
+                                                data-phone="{{ customer.phone }}" data-address="{{ customer.address }}">
+                                                {{ customer.first_name }} {{ customer.last_name }} ({{ customer.email }})
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Or add new customer</label>
+                                        <div>
+                                            <a href="{% url 'admin:store_customer_add' %}" target="_blank" class="btn btn-outline-primary" {% if not user.is_authenticated %}disabled{% endif %}>
+                                                <i class="fas fa-plus me-1"></i> New Customer (Admin)
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="customer-details" id="customerDetails" style="display: none;">
+                                    <h6>Customer Details</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Name:</strong> <span id="customerName"></span></p>
+                                            <p><strong>Email:</strong> <span id="customerEmail"></span></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Phone:</strong> <span id="customerPhone"></span></p>
+                                            <p><strong>Address:</strong> <span id="customerAddress"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-end mt-4">
+                                    <button type="button" class="btn btn-primary" onclick="showStep(2)" {% if not user.is_authenticated %}disabled{% endif %}>
+                                        Next <i class="fas fa-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2: Vehicle Selection -->
+                            <div class="step-content" id="stepContent2" style="display: none;">
+                                <h5 style="color: var(--primary); font-weight: 700; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid #e9ecef;"><i class="fas fa-car me-2"></i>Vehicle Selection</h5>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <label for="carSelect" class="form-label required-label">Select Vehicle</label>
+                                        <select class="form-select" id="carSelect" name="car" required {% if not user.is_authenticated %}disabled{% endif %}>
+                                            <option value="">Choose a vehicle...</option>
+                                            {% for car in available_cars %}
+                                            <option value="{{ car.id }}" data-make="{{ car.make }}" data-model="{{ car.model }}"
+                                                data-year="{{ car.year }}" data-vin="{{ car.vin }}" data-price="{{ car.price }}"
+                                                data-mileage="{{ car.mileage }}" data-color="{{ car.color }}" data-type="{{ car.car_type }}"
+                                                data-status="{{ car.status }}" data-image="{{ car.image_url|default:'' }}">
+                                                {{ car.year }} {{ car.make }} {{ car.model }} - ${{ car.price }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Filter by</label>
+                                        <div class="input-group">
+                                            <select class="form-select" id="carFilter" {% if not user.is_authenticated %}disabled{% endif %}>
+                                                <option value="all">All Available Cars</option>
+                                                <option value="featured">Featured Cars</option>
+                                                <option value="sedan">Sedan</option>
+                                                <option value="suv">SUV</option>
+                                                <option value="truck">Truck</option>
+                                                <option value="coupe">Coupe</option>
+                                                <option value="hatchback">Hatchback</option>
+                                            </select>
+                                            <button class="btn btn-outline-secondary" type="button" onclick="filterCars()" {% if not user.is_authenticated %}disabled{% endif %}>
+                                                <i class="fas fa-filter"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="car-details" id="carDetails" style="display: none;">
+                                    <h6 style="margin-bottom: 1.5rem; color: var(--primary); font-weight: 700;">Vehicle Details</h6>
+                                    <div class="car-details-row">
+                                        <div class="car-image-container">
+                                            <img id="carImage" src="" class="car-image" alt="Car image" style="display: none;">
+                                        </div>
+                                        <div class="car-info-section">
+                                            <div class="car-info-row">
+                                                <div class="car-info-item">
+                                                    <strong>Make/Model</strong>
+                                                    <span id="carMakeModel"></span>
+                                                </div>
+                                                <div class="car-info-item">
+                                                    <strong>Year</strong>
+                                                    <span id="carYear"></span>
+                                                </div>
+                                                <div class="car-info-item">
+                                                    <strong>VIN</strong>
+                                                    <span id="carVin"></span>
+                                                </div>
+                                                <div class="car-info-item">
+                                                    <strong>Type</strong>
+                                                    <span id="carType"></span>
+                                                </div>
+                                                <div class="car-info-item">
+                                                    <strong>Color</strong>
+                                                    <span id="carColor"></span>
+                                                </div>
+                                                <div class="car-info-item">
+                                                    <strong>Mileage</strong>
+                                                    <span id="carMileage"></span>
+                                                </div>
+                                                <div class="car-info-item">
+                                                    <strong>Price</strong>
+                                                    <span id="carPrice" style="color: var(--secondary); font-weight: 700;">$</span>
+                                                </div>
+                                                <div class="car-info-item">
+                                                    <strong>Status</strong>
+                                                    <span id="carStatus"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-secondary" onclick="showStep(1)" {% if not user.is_authenticated %}disabled{% endif %}>
+                                        <i class="fas fa-arrow-left me-1"></i> Back
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="showStep(3)" {% if not user.is_authenticated %}disabled{% endif %}>
+                                        Next <i class="fas fa-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3: Payment Information -->
+                            <div class="step-content" id="stepContent3" style="display: none;">
+                                <h5 style="color: var(--primary); font-weight: 700; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid #e9ecef;"><i class="fas fa-credit-card me-2"></i>Payment Information</h5>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="saleAmount" class="form-label required-label">Sale Amount ($)</label>
+                                        <input type="number" class="form-control" id="saleAmount" name="sale_amount" step="0.01" min="0" required {% if not user.is_authenticated %}disabled{% endif %}>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="saleDate" class="form-label required-label">Sale Date</label>
+                                        <input type="date" class="form-control" id="saleDate" name="sale_date" required {% if not user.is_authenticated %}disabled{% endif %}>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="paymentMethod" class="form-label required-label">Payment Method</label>
+                                        <select class="form-select" id="paymentMethod" name="payment_method" required {% if not user.is_authenticated %}disabled{% endif %}>
+                                            <option value="">Select payment method...</option>
+                                            <option value="cash">Cash</option>
+                                            <option value="credit">Credit Card</option>
+                                            <option value="finance">Bank Finance</option>
+                                            <option value="check">Check</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="salesPerson" class="form-label required-label">Sales Person</label>
+                                        <select class="form-select" id="salesPerson" name="sales_person" required {% if not user.is_authenticated %}disabled{% endif %}>
+                                            <option value="">Select sales person...</option>
+                                            {% for user in sales_persons %}
+                                            <option value="{{ user.id }}">{{ user.get_full_name|default:user.username }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="notes" class="form-label">Notes</label>
+                                    <textarea class="form-control" id="notes" name="notes" rows="3" {% if not user.is_authenticated %}disabled{% endif %}></textarea>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-secondary" onclick="showStep(2)" {% if not user.is_authenticated %}disabled{% endif %}>
+                                        <i class="fas fa-arrow-left me-1"></i> Back
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="showStep(4)" {% if not user.is_authenticated %}disabled{% endif %}>
+                                        Next <i class="fas fa-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 4: Payment Processing -->
+                            <div class="step-content" id="stepContent4" style="display: none;">
+                                <h5 class="mb-4"><i class="fas fa-credit-card me-2"></i>Payment Processing</h5>
+                                
+                                <div class="payment-section">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <img src="https://razorpay.com/assets/razorpay-glyph.svg" class="razorpay-logo" alt="Razorpay">
+                                        <h6 class="mb-0">Secure Payment via Razorpay</h6>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6>Order Summary</h6>
+                                                    <p><strong>Vehicle:</strong> <span id="paymentCar"></span></p>
+                                                    <p><strong>Sale Amount:</strong> $<span id="paymentAmount"></span></p>
+                                                    <p><strong>Payment Method:</strong> <span id="paymentMethodText"></span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6>Customer Information</h6>
+                                                    <p><strong>Name:</strong> <span id="paymentCustomer"></span></p>
+                                                    <p><strong>Email:</strong> <span id="paymentEmail"></span></p>
+                                                    <p><strong>Phone:</strong> <span id="paymentPhone"></span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-center mt-4">
+                                        <button type="button" class="btn btn-success btn-lg" id="rzp-button" {% if not user.is_authenticated %}disabled{% endif %}>
+                                            <i class="fas fa-lock me-2"></i> Pay Now
+                                        </button>
+                                        <p class="text-muted mt-2 small">You will be redirected to a secure payment page</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-secondary" onclick="showStep(3)" {% if not user.is_authenticated %}disabled{% endif %}>
+                                        <i class="fas fa-arrow-left me-1"></i> Back
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary" onclick="skipPayment()" {% if not user.is_authenticated %}disabled{% endif %}>
+                                        Skip Payment <i class="fas fa-arrow-right ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 5: Review and Submit -->
+                            <div class="step-content" id="stepContent5" style="display: none;">
+                                <h5 class="mb-4"><i class="fas fa-clipboard-check me-2"></i>Review Sale Details</h5>
+                                
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>Please review all information before submitting the sale.
+                                </div>
+                                
+                                <!-- Add payment status -->
+                                <div class="alert alert-success" id="paymentSuccessAlert" style="display: none;">
+                                    <i class="fas fa-check-circle me-2"></i> Payment completed successfully!
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card mb-4">
+                                            <div class="card-header bg-light">
+                                                <h6 class="mb-0">Customer Information</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <p><strong>Name:</strong> <span id="finalCustomerName"></span></p>
+                                                <p><strong>Email:</strong> <span id="finalCustomerEmail"></span></p>
+                                                <p><strong>Phone:</strong> <span id="finalCustomerPhone"></span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card mb-4">
+                                            <div class="card-header bg-light">
+                                                <h6 class="mb-0">Vehicle Information</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <p><strong>Vehicle:</strong> <span id="finalCar"></span></p>
+                                                <p><strong>VIN:</strong> <span id="finalCarVin"></span></p>
+                                                <p><strong>Price:</strong> $<span id="finalCarPrice"></span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light">
+                                        <h6 class="mb-0">Transaction Details</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <p><strong>Sale Amount:</strong> $<span id="finalSaleAmount"></span></p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p><strong>Sale Date:</strong> <span id="finalSaleDate"></span></p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p><strong>Payment Method:</strong> <span id="finalPaymentMethod"></span></p>
+                                            </div>
+                                        </div>
+                                        <p><strong>Payment Status:</strong> <span id="paymentStatus">Pending</span></p>
+                                        <p><strong>Sales Person:</strong> <span id="finalSalesPerson"></span></p>
+                                        <p><strong>Notes:</strong> <span id="finalNotes"></span></p>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" id="confirmationCheck" required {% if not user.is_authenticated %}disabled{% endif %}>
+                                    <label class="form-check-label" for="confirmationCheck">
+                                        I confirm that all the information above is correct
+                                    </label>
+                                </div>
+                                
+                                <!-- Add hidden field for payment ID -->
+                                <input type="hidden" id="razorpayPaymentId" name="razorpay_payment_id">
+                                <input type="hidden" id="razorpayOrderId" name="razorpay_order_id">
+                                <input type="hidden" id="razorpaySignature" name="razorpay_signature">
+                                
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-secondary" onclick="showStep(4)" {% if not user.is_authenticated %}disabled{% endif %}>
+                                        <i class="fas fa-arrow-left me-1"></i> Back
+                                    </button>
+                                    <button type="submit" class="btn btn-success" id="submitSaleBtn" {% if not user.is_authenticated %}disabled{% endif %}>
+                                        <i class="fas fa-check me-1"></i> Complete Sale
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="toast align-items-center text-white bg-success position-fixed top-0 end-0 m-4" role="alert" aria-live="assertive" aria-atomic="true" id="successToast">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="fas fa-check-circle me-2"></i> Sale recorded successfully!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Current step tracker
+        let currentStep = 1;
+        let razorpayOptions = null;
+        
+        // DOM Content Loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set today's date as default for sale date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('saleDate').value = today;
+            
+            // Add event listeners to show details when selections change
+            document.getElementById('customerSelect').addEventListener('change', function() {
+                if (this.value) {
+                    const option = this.options[this.selectedIndex];
+                    showCustomerDetails({
+                        first_name: option.getAttribute('data-first-name'),
+                        last_name: option.getAttribute('data-last-name'),
+                        email: option.getAttribute('data-email'),
+                        phone: option.getAttribute('data-phone'),
+                        address: option.getAttribute('data-address')
+                    });
+                } else {
+                    document.getElementById('customerDetails').style.display = 'none';
+                }
+            });
+            
+            document.getElementById('carSelect').addEventListener('change', function() {
+                if (this.value) {
+                    const option = this.options[this.selectedIndex];
+                    showCarDetails({
+                        make: option.getAttribute('data-make'),
+                        model: option.getAttribute('data-model'),
+                        year: option.getAttribute('data-year'),
+                        vin: option.getAttribute('data-vin'),
+                        price: option.getAttribute('data-price'),
+                        mileage: option.getAttribute('data-mileage'),
+                        color: option.getAttribute('data-color'),
+                        car_type: option.getAttribute('data-type'),
+                        status: option.getAttribute('data-status'),
+                        image_url: option.getAttribute('data-image')
+                    });
+                    
+                    // Set the sale amount to the car's price by default
+                    document.getElementById('saleAmount').value = option.getAttribute('data-price');
+                } else {
+                    document.getElementById('carDetails').style.display = 'none';
+                }
+            });
+        });
+        
+        // Show/hide steps
+        function showStep(step) {
+            // Validate current step before proceeding
+            if (step > currentStep && !validateStep(currentStep)) {
+                return;
+            }
+            
+            // Update current step
+            currentStep = step;
+            
+            // Hide all step contents
+            document.querySelectorAll('.step-content').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Show current step content
+            document.getElementById('stepContent' + step).style.display = 'block';
+            
+            // Update progress steps
+            updateProgressSteps(step);
+            
+            // If we're on the payment step, initialize Razorpay
+            if (step === 4) {
+                populatePaymentFields();
+                initializeRazorpay();
+            }
+            
+            // If we're on the review step, populate review fields
+            if (step === 5) {
+                populateReviewFields();
+            }
+        }
+        
+        // Update progress steps UI to handle 5 steps
+        function updateProgressSteps(activeStep) {
+            for (let i = 1; i <= 5; i++) {
+                const stepElement = document.getElementById('step' + i);
+                if (i < activeStep) {
+                    stepElement.className = 'step completed';
+                } else if (i === activeStep) {
+                    stepElement.className = 'step active';
+                } else {
+                    stepElement.className = 'step';
+                }
+            }
+        }
+        
+        // Validate current step
+        function validateStep(step) {
+            if (step === 1) {
+                const customerSelect = document.getElementById('customerSelect');
+                if (!customerSelect.value) {
+                    alert('Please select a customer');
+                    customerSelect.focus();
+                    return false;
+                }
+                return true;
+            } else if (step === 2) {
+                const carSelect = document.getElementById('carSelect');
+                if (!carSelect.value) {
+                    alert('Please select a vehicle');
+                    carSelect.focus();
+                    return false;
+                }
+                return true;
+            } else if (step === 3) {
+                const saleAmount = document.getElementById('saleAmount');
+                const saleDate = document.getElementById('saleDate');
+                const paymentMethod = document.getElementById('paymentMethod');
+                const salesPerson = document.getElementById('salesPerson');
+                
+                if (!saleAmount.value || parseFloat(saleAmount.value) <= 0) {
+                    alert('Please enter a valid sale amount');
+                    saleAmount.focus();
+                    return false;
+                }
+                
+                if (!saleDate.value) {
+                    alert('Please select a sale date');
+                    saleDate.focus();
+                    return false;
+                }
+                
+                if (!paymentMethod.value) {
+                    alert('Please select a payment method');
+                    paymentMethod.focus();
+                    return false;
+                }
+                
+                if (!salesPerson.value) {
+                    alert('Please select a sales person');
+                    salesPerson.focus();
+                    return false;
+                }
+                
+                return true;
+            }
+            return true;
+        }
+        
+        // Show customer details
+        function showCustomerDetails(customer) {
+            document.getElementById('customerName').textContent = `${customer.first_name} ${customer.last_name}`;
+            document.getElementById('customerEmail').textContent = customer.email;
+            document.getElementById('customerPhone').textContent = customer.phone;
+            document.getElementById('customerAddress').textContent = customer.address;
+            document.getElementById('customerDetails').style.display = 'block';
+        }
+        
+        // Filter cars based on selection
+        function filterCars() {
+            const filterValue = document.getElementById('carFilter').value;
+            const carSelect = document.getElementById('carSelect');
+            
+            // Show all options
+            for (let i = 1; i < carSelect.options.length; i++) {
+                carSelect.options[i].style.display = '';
+            }
+            
+            // If a specific filter is selected, hide non-matching options
+            if (filterValue !== 'all') {
+                for (let i = 1; i < carSelect.options.length; i++) {
+                    const carType = carSelect.options[i].getAttribute('data-type');
+                    
+                    if (filterValue === 'featured') {
+                        // For featured, we'd need to add a data-featured attribute to options
+                        // This is just a placeholder implementation
+                        if (Math.random() > 0.5) { // Randomly hide some for demo
+                            carSelect.options[i].style.display = 'none';
+                        }
+                    } else if (carType !== filterValue) {
+                        carSelect.options[i].style.display = 'none';
+                    }
+                }
+            }
+        }
+        
+        // Show car details
+        function showCarDetails(car) {
+            document.getElementById('carMakeModel').textContent = `${car.make} ${car.model}`;
+            document.getElementById('carYear').textContent = car.year;
+            document.getElementById('carVin').textContent = car.vin;
+            document.getElementById('carType').textContent = car.car_type.toUpperCase();
+            document.getElementById('carColor').textContent = car.color;
+            document.getElementById('carMileage').textContent = `${parseInt(car.mileage).toLocaleString()} miles`;
+            document.getElementById('carPrice').textContent = parseFloat(car.price).toLocaleString();
+            document.getElementById('carStatus').textContent = car.status === 'is_available' ? 'Available' : 'Not Available';
+            
+            const carImage = document.getElementById('carImage');
+            if (car.image_url) {
+                carImage.src = car.image_url;
+                carImage.style.display = 'block';
+            } else {
+                carImage.style.display = 'none';
+            }
+            
+            document.getElementById('carDetails').style.display = 'block';
+        }
+        
+        // Populate payment fields
+        function populatePaymentFields() {
+            // Customer details
+            const customerSelect = document.getElementById('customerSelect');
+            const customerOption = customerSelect.options[customerSelect.selectedIndex];
+            document.getElementById('paymentCustomer').textContent = `${customerOption.getAttribute('data-first-name')} ${customerOption.getAttribute('data-last-name')}`;
+            document.getElementById('paymentEmail').textContent = customerOption.getAttribute('data-email');
+            document.getElementById('paymentPhone').textContent = customerOption.getAttribute('data-phone');
+            
+            // Car details
+            const carSelect = document.getElementById('carSelect');
+            const carOption = carSelect.options[carSelect.selectedIndex];
+            document.getElementById('paymentCar').textContent = `${carOption.getAttribute('data-year')} ${carOption.getAttribute('data-make')} ${carOption.getAttribute('data-model')}`;
+            
+            // Payment details
+            document.getElementById('paymentAmount').textContent = document.getElementById('saleAmount').value;
+            
+            const paymentMethodSelect = document.getElementById('paymentMethod');
+            document.getElementById('paymentMethodText').textContent = paymentMethodSelect.options[paymentMethodSelect.selectedIndex].text;
+        }
+        
+        // Update populateReviewFields to use final... IDs
+        function populateReviewFields() {
+            // Customer details
+            const customerSelect = document.getElementById('customerSelect');
+            const customerOption = customerSelect.options[customerSelect.selectedIndex];
+            document.getElementById('finalCustomerName').textContent = `${customerOption.getAttribute('data-first-name')} ${customerOption.getAttribute('data-last-name')}`;
+            document.getElementById('finalCustomerEmail').textContent = customerOption.getAttribute('data-email');
+            document.getElementById('finalCustomerPhone').textContent = customerOption.getAttribute('data-phone');
+            
+            // Car details
+            const carSelect = document.getElementById('carSelect');
+            const carOption = carSelect.options[carSelect.selectedIndex];
+            document.getElementById('finalCar').textContent = `${carOption.getAttribute('data-year')} ${carOption.getAttribute('data-make')} ${carOption.getAttribute('data-model')}`;
+            document.getElementById('finalCarVin').textContent = carOption.getAttribute('data-vin');
+            document.getElementById('finalCarPrice').textContent = parseFloat(carOption.getAttribute('data-price')).toLocaleString();
+            
+            // Sale details
+            document.getElementById('finalSaleAmount').textContent = document.getElementById('saleAmount').value;
+            document.getElementById('finalSaleDate').textContent = document.getElementById('saleDate').value;
+            
+            const paymentMethodSelect = document.getElementById('paymentMethod');
+            document.getElementById('finalPaymentMethod').textContent = paymentMethodSelect.options[paymentMethodSelect.selectedIndex].text;
+            
+            const salesPersonSelect = document.getElementById('salesPerson');
+            document.getElementById('finalSalesPerson').textContent = salesPersonSelect.options[salesPersonSelect.selectedIndex].text;
+            
+            document.getElementById('finalNotes').textContent = document.getElementById('notes').value || 'N/A';
+            
+            // Check if payment was completed
+            if (document.getElementById('razorpayPaymentId').value) {
+    const customerSelect = document.getElementById('customerSelect');
+    if (!customerSelect.value) {
+        alert('Please select a customer');
+        customerSelect.focus();
+        return false;
+    }
+    return true;
+} else if (step === 2) {
+    const carSelect = document.getElementById('carSelect');
+    if (!carSelect.value) {
+        alert('Please select a vehicle');
+        carSelect.focus();
+        return false;
+    }
+    return true;
+} else if (step === 3) {
+    const saleAmount = document.getElementById('saleAmount');
+    const saleDate = document.getElementById('saleDate');
+    const paymentMethod = document.getElementById('paymentMethod');
+    const salesPerson = document.getElementById('salesPerson');
+    
+    if (!saleAmount.value || parseFloat(saleAmount.value) <= 0) {
+        alert('Please enter a valid sale amount');
+        saleAmount.focus();
+        return false;
+    }
+    
+    if (!saleDate.value) {
+        alert('Please select a sale date');
+        saleDate.focus();
+        return false;
+    }
+    
+    if (!paymentMethod.value) {
+        alert('Please select a payment method');
+        paymentMethod.focus();
+        return false;
+    }
+    
+    if (!salesPerson.value) {
+        alert('Please select a sales person');
+        salesPerson.focus();
+        return false;
+    }
+    
+    return true;
+}
+return true;
+}
+
+// Show customer details
+function showCustomerDetails(customer) {
+document.getElementById('customerName').textContent = `${customer.first_name} ${customer.last_name}`;
+document.getElementById('customerEmail').textContent = customer.email;
+document.getElementById('customerPhone').textContent = customer.phone;
+document.getElementById('customerAddress').textContent = customer.address;
+document.getElementById('customerDetails').style.display = 'block';
+}
+
+// Filter cars based on selection
+function filterCars() {
+const filterValue = document.getElementById('carFilter').value;
+const carSelect = document.getElementById('carSelect');
+    
+// Show all options
+for (let i = 1; i < carSelect.options.length; i++) {
+    carSelect.options[i].style.display = '';
+}
+    
+// If a specific filter is selected, hide non-matching options
+if (filterValue !== 'all') {
+    for (let i = 1; i < carSelect.options.length; i++) {
+        const carType = carSelect.options[i].getAttribute('data-type');
+        
+        if (filterValue === 'featured') {
+            // For featured, we'd need to add a data-featured attribute to options
+            // This is just a placeholder implementation
+            if (Math.random() > 0.5) { // Randomly hide some for demo
+                carSelect.options[i].style.display = 'none';
+            }
+        } else if (carType !== filterValue) {
+            carSelect.options[i].style.display = 'none';
+        }
+    }
+}
+}
+
+// Show car details
+function showCarDetails(car) {
+document.getElementById('carMakeModel').textContent = `${car.make} ${car.model}`;
+document.getElementById('carYear').textContent = car.year;
+document.getElementById('carVin').textContent = car.vin;
+document.getElementById('carType').textContent = car.car_type.toUpperCase();
+document.getElementById('carColor').textContent = car.color;
+document.getElementById('carMileage').textContent = `${parseInt(car.mileage).toLocaleString()} miles`;
+document.getElementById('carPrice').textContent = parseFloat(car.price).toLocaleString();
+document.getElementById('carStatus').textContent = car.status === 'is_available' ? 'Available' : 'Not Available';
+    
+const carImage = document.getElementById('carImage');
+if (car.image_url) {
+    carImage.src = car.image_url;
+    carImage.style.display = 'block';
+} else {
+    carImage.style.display = 'none';
+}
+    
+document.getElementById('carDetails').style.display = 'block';
+}
+
+// Populate payment fields
+function populatePaymentFields() {
+// Customer details
+const customerSelect = document.getElementById('customerSelect');
+const customerOption = customerSelect.options[customerSelect.selectedIndex];
+document.getElementById('paymentCustomer').textContent = `${customerOption.getAttribute('data-first-name')} ${customerOption.getAttribute('data-last-name')}`;
+document.getElementById('paymentEmail').textContent = customerOption.getAttribute('data-email');
+document.getElementById('paymentPhone').textContent = customerOption.getAttribute('data-phone');
+    
+// Car details
+const carSelect = document.getElementById('carSelect');
+const carOption = carSelect.options[carSelect.selectedIndex];
+document.getElementById('paymentCar').textContent = `${carOption.getAttribute('data-year')} ${carOption.getAttribute('data-make')} ${carOption.getAttribute('data-model')}`;
+    
+// Payment details
+document.getElementById('paymentAmount').textContent = document.getElementById('saleAmount').value;
+    
+const paymentMethodSelect = document.getElementById('paymentMethod');
+document.getElementById('paymentMethodText').textContent = paymentMethodSelect.options[paymentMethodSelect.selectedIndex].text;
+}
+
+// Update populateReviewFields to use final... IDs
+function populateReviewFields() {
+// Customer details
+const customerSelect = document.getElementById('customerSelect');
+const customerOption = customerSelect.options[customerSelect.selectedIndex];
+document.getElementById('finalCustomerName').textContent = `${customerOption.getAttribute('data-first-name')} ${customerOption.getAttribute('data-last-name')}`;
+document.getElementById('finalCustomerEmail').textContent = customerOption.getAttribute('data-email');
+document.getElementById('finalCustomerPhone').textContent = customerOption.getAttribute('data-phone');
+    
+// Car details
+const carSelect = document.getElementById('carSelect');
+const carOption = carSelect.options[carSelect.selectedIndex];
+document.getElementById('finalCar').textContent = `${carOption.getAttribute('data-year')} ${carOption.getAttribute('data-make')} ${carOption.getAttribute('data-model')}`;
+document.getElementById('finalCarVin').textContent = carOption.getAttribute('data-vin');
+document.getElementById('finalCarPrice').textContent = parseFloat(carOption.getAttribute('data-price')).toLocaleString();
+    
+// Sale details
+document.getElementById('finalSaleAmount').textContent = document.getElementById('saleAmount').value;
+document.getElementById('finalSaleDate').textContent = document.getElementById('saleDate').value;
+    
+const paymentMethodSelect = document.getElementById('paymentMethod');
+document.getElementById('finalPaymentMethod').textContent = paymentMethodSelect.options[paymentMethodSelect.selectedIndex].text;
+    
+const salesPersonSelect = document.getElementById('salesPerson');
+document.getElementById('finalSalesPerson').textContent = salesPersonSelect.options[salesPersonSelect.selectedIndex].text;
+    
+document.getElementById('finalNotes').textContent = document.getElementById('notes').value || 'N/A';
+    
+// Check if payment was completed
+if (document.getElementById('razorpayPaymentId').value) {
+    document.getElementById('paymentStatus').textContent = 'Completed';
+    document.getElementById('paymentStatus').className = 'text-success';
+}
+}
+
+// Initialize Razorpay payment
+function initializeRazorpay() {
+// Check if Razorpay library is loaded
+if (typeof Razorpay === 'undefined') {
+    console.error('Razorpay library not loaded');
+    alert('Payment system is not available. Please refresh the page.');
+    return;
+}
+    
+// Check if payment button exists
+const payButton = document.getElementById('rzp-button');
+if (!payButton) {
+    console.error('Payment button not found');
+    alert('Payment button is missing. Please refresh the page.');
+    return;
+}
+    
+const amount = document.getElementById('saleAmount').value;
+const customerSelect = document.getElementById('customerSelect');
+const customerOption = customerSelect.options[customerSelect.selectedIndex];
+const customerName = `${customerOption.getAttribute('data-first-name')} ${customerOption.getAttribute('data-last-name')}`;
+const customerEmail = customerOption.getAttribute('data-email');
+const customerPhone = customerOption.getAttribute('data-phone');
+    
+// Create Razorpay order on server
+createRazorpayOrder(amount).then(orderData => {
+    razorpayOptions = {
+        key: orderData.key,
+        amount: orderData.amount,
+        currency: 'INR',
+        name: 'AutoSales Manager',
+        description: 'Vehicle Purchase',
+        image: 'https://example.com/your_logo.jpg',
+        order_id: orderData.id,
+        handler: function(response) {
+            // Handle successful payment UI updates first
+            document.getElementById('razorpayPaymentId').value = response.razorpay_payment_id;
+            document.getElementById('razorpayOrderId').value = response.razorpay_order_id;
+            document.getElementById('razorpaySignature').value = response.razorpay_signature;
+            
+            // Show processing message
+            const payButton = document.getElementById('rzp-button');
+            payButton.disabled = true;
+            payButton.innerHTML = '<span class="loading-spinner"></span> Verifying Payment...';
+            
+            // Verify payment on server
+            verifyPayment(response).then(verificationResult => {
+                if (verificationResult.success) {
+                    // Update UI to show payment was successful
+                    document.getElementById('paymentSuccessAlert').style.display = 'block';
+                    document.getElementById('paymentStatus').textContent = 'Completed';
+                    document.getElementById('paymentStatus').className = 'text-success';
+                    
+                    // Enable the submit button
+                    document.getElementById('submitSaleBtn').disabled = false;
+                    
+                    // Show success message
+                    alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
+                    
+                    // Automatically proceed to next step after successful payment
+                    setTimeout(() => {
+                        showStep(5);
+                    }, 2000);
+                } else {
+                    alert('Payment verification failed: ' + verificationResult.error);
+                    // Reset payment button
+                    payButton.disabled = false;
+                    payButton.innerHTML = '<i class="fas fa-lock me-2"></i> Try Payment Again';
+                }
+            }).catch(error => {
+                console.error('Payment verification error:', error);
+                alert('Error verifying payment. Please contact support.');
+                // Reset payment button
+                payButton.disabled = false;
+                payButton.innerHTML = '<i class="fas fa-lock me-2"></i> Try Payment Again';
+            });
+        },
+        prefill: {
+            name: customerName,
+            email: customerEmail,
+            contact: customerPhone
+        },
+        notes: {
+            address: 'AutoSales Manager Office'
+        },
+        theme: {
+            color: '#0d6efd'
+        },
+        modal: {
+            ondismiss: function() {
+                // Handle when user closes the modal without payment
+                console.log('Payment modal dismissed');
+            }
+        }
+    };
+    
+    // Create Razorpay instance
+    try {
+        const rzp = new Razorpay(razorpayOptions);
+        
+        // Add event listener to the payment button
+        const payBtn = document.getElementById('rzp-button');
+        if (payBtn) {
+            payBtn.onclick = function(e) {
+                e.preventDefault();
+                rzp.open();
+            };
+        }
+    } catch (error) {
+        console.error('Error initializing Razorpay:', error);
+        alert('Error initializing payment. Please refresh and try again.');
+    }
+}).catch(error => {
+    console.error('Error creating Razorpay order:', error);
+    alert('Error initializing payment. Please try again.');
+});
+}
+
+// Create Razorpay order on server
+function createRazorpayOrder(amount) {
+    return new Promise((resolve, reject) => {
+        // Show loading state
+        const payButton = document.getElementById('rzp-button');
+        const originalText = payButton.innerHTML;
+        payButton.disabled = true;
+        payButton.innerHTML = '<span class="loading-spinner"></span> Processing...';
+        
+        // Make API call to server to create order
+        fetch('/create-razorpay-order/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            },
+            body: JSON.stringify({ 
+                amount: amount,
+                currency: 'INR'
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            resolve(data);
+            // Restore button state
+            payButton.disabled = false;
+            payButton.innerHTML = originalText;
+        })
+        .catch(error => {
+            console.error('Error creating order:', error);
+            // Restore button state
+            payButton.disabled = false;
+            payButton.innerHTML = originalText;
+            reject(error);
+        });
+    });
+}
+
+// Verify payment on server
+function verifyPayment(paymentResponse) {
+    return new Promise((resolve, reject) => {
+        fetch('/verify-razorpay-payment/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            },
+            body: JSON.stringify(paymentResponse)
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(`Server error: ${response.status} ${text}`);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                resolve(data);
+            } else {
+                reject(new Error(data.error || 'Payment verification failed'));
+            }
+        })
+        .catch(error => {
+            console.error('Error verifying payment:', error);
+            reject(error);
+        });
+    });
+}
+        
+        // Skip payment and proceed to review
+        function skipPayment() {
+            document.getElementById('razorpayPaymentId').value = '';
+            document.getElementById('razorpayOrderId').value = '';
+            document.getElementById('razorpaySignature').value = '';
+            showStep(5);
+        }
+        
+        // Function to get CSRF token
+        function getCSRFToken() {
+            return document.querySelector('[name=csrfmiddlewaretoken]').value;
+        }
+        
+        // Form submission
+        document.getElementById('salesForm').addEventListener('submit', function(e) {
+            // Validate the confirmation checkbox
+            if (!document.getElementById('confirmationCheck').checked) {
+                e.preventDefault();
+                alert('Please confirm that the information is correct');
+                return;
+            }
+            
+            // Show success message
+            const toast = new bootstrap.Toast(document.getElementById('successToast'));
+            toast.show();
+        });
+    </script>
+</body>
+</html>

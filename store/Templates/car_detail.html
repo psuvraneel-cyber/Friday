@@ -1,0 +1,669 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Elite - Car Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a2a36;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --gray: #95a5a6;
+            --dark: #2c3e50;
+            --gold: #f1c40f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
+                        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background-color: rgba(26, 42, 54, 0.95);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--light);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .breadcrumbs {
+            padding: 15px 0;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .breadcrumbs a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumbs a:hover {
+            color: var(--accent);
+        }
+        
+        .breadcrumbs span {
+            margin: 0 8px;
+        }
+        
+        .car-detail-content {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            background: rgba(26, 42, 54, 0.85);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .car-gallery {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .main-image {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 400px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .main-image:hover img {
+            transform: scale(1.03);
+        }
+        
+        .thumbnail-gallery {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .thumbnail-gallery img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .thumbnail-gallery img:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+        
+        .thumbnail-gallery img.active {
+            border-color: var(--accent);
+        }
+        
+        .car-info {
+            flex: 1;
+            padding: 20px;
+            background: rgba(44, 62, 80, 0.6);
+            border-radius: 8px;
+        }
+        
+        .car-info h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+        
+        .car-price {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .price {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--gold);
+            display: block;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: var(--gray);
+            margin-right: 15px;
+            font-size: 22px;
+        }
+        
+        .discount-badge {
+            background-color: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .quick-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 6px;
+        }
+        
+        .detail-item i {
+            font-size: 20px;
+            color: var(--accent);
+            margin-right: 10px;
+            width: 30px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            padding: 14px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-accent:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: 2px solid var(--accent);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .spec-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .spec-card h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--accent);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+        
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+        
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+        
+        .spec-label {
+            font-weight: 500;
+        }
+        
+        .featured-badge {
+            background: linear-gradient(45deg, var(--accent), #f1c40f);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        
+        .car-description {
+            background: rgba(26, 42, 54, 0.85);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .car-description h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+        
+        .car-description p {
+            line-height: 1.8;
+            color: #d5d8dc;
+        }
+        
+        .financing-section {
+            background: rgba(26, 42, 54, 0.85);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 40px;
+        }
+        
+        .financing-section h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+        
+        .financing-calculator {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 16px;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        #calculate-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        
+        #calculate-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .result {
+            background: rgba(44, 62, 80, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        
+        .result strong {
+            color: var(--gold);
+            font-size: 24px;
+        }
+        
+        .result small {
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .footer {
+            background-color: rgba(26, 42, 54, 0.95);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-section h4 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--light);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 14px;
+            max-width: 1200px;
+            margin: 30px auto 0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .car-detail-content {
+                flex-direction: column;
+            }
+            
+            .financing-calculator {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                justify-content: center;
+            }
+            
+            .quick-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="car-detail">
+    <div class="container">
+        <div class="breadcrumbs">
+            <a href="{% url 'home' %}">Home</a> &raquo;
+            <a href="{% url 'car_list' %}">Back</a> &raquo;
+            <a href="{% url 'about' %}">About Us</a> &raquo;
+            <a href="{% url 'contact' %}">Contact</a> &raquo;
+            <span>{{ cars.year }} {{ cars.make }} {{ cars.model }}</span>
+        </div>
+        
+        <div class="car-detail-content">
+            <div class="car-gallery">
+                <div class="main-image">
+                    <img src="{{ cars.image_url }}" alt="{{ car.make }} {{ car.model }}">
+                </div>
+            </div>
+            
+            <div class="car-info">
+                <h1>{{ cars.year }} {{ cars.make }} {{ cars.model }}</h1>
+                <div class="car-price">
+                    <span class="price">${{ cars.price|intcomma }}</span>
+                    {% if cars.discount > 0 %}
+                    <span class="original-price">${{ car.discounted_price|floatformat:2|intcomma }}</span>
+                    <span class="discount-badge">Save {{ cars.discount }}%</span>
+                    {% endif %}
+                </div>
+                
+                <div class="quick-details">
+                    <div class="detail-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>{{ cars.mileage|intcomma }} mi</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-car"></i>
+                        <span>{{ cars.car_type }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-gas-pump"></i>
+                        <span>{{ cars.fuel_type }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-cog"></i>
+                        <span>{{ cars.transmission }}</span>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="{% url 'contact' %}?car={{ car.id }}" class="btn btn-accent">Make an Inquiry</a>
+                    <a href="tel:+7439583884" class="btn btn-primary">
+                        <i class="fas fa-phone"></i> Call Now
+                    </a>
+                </div>
+                
+                <div class="features-section">
+                    <div class="features-grid">
+                        {% for feature in car.features.all %}
+                        <div class="feature-item">
+                            <i class="{{ feature.icon|default:'fas fa-check' }}"></i>
+                            <span>{{ feature.name }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="car-description">
+            <h3>Vehicle Description</h3>
+            <p>{{ cars.description|linebreaks }}</p>
+        </div>
+        
+        <div class="financing-section">
+            <h3>Financing Options</h3>
+            <div class="financing-calculator">
+                <form id="finance-calculator">
+                    <div class="form-group">
+                        <label for="loan-amount">Loan Amount</label>
+                        <input type="number" id="loan-amount" value="{{ car.price|floatformat:0 }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="interest-rate">Interest Rate (%)</label>
+                        <input type="number" id="interest-rate" step="0.01" value="5.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="loan-term">Loan Term (months)</label>
+                        <select id="loan-term">
+                            <option value="24">24 months</option>
+                            <option value="36">36 months</option>
+                            <option value="48">48 months</option>
+                            <option value="60" selected>60 months</option>
+                            <option value="72">72 months</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="calculate-btn">Calculate Payment</button>
+                    <div class="result" id="payment-result"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Image gallery functionality
+    const thumbnails = document.querySelectorAll('.thumbnail-gallery img');
+    const mainImage = document.querySelector('.main-image img');
+    
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', function() {
+            mainImage.src = this.src;
+        });
+    });
+    
+    // Financing calculator
+    const calculateBtn = document.getElementById('calculate-btn');
+    if (calculateBtn) {
+        calculateBtn.addEventListener('click', function() {
+            const amount = parseFloat(document.getElementById('loan-amount').value);
+            const rate = parseFloat(document.getElementById('interest-rate').value) / 100 / 12;
+            const term = parseInt(document.getElementById('loan-term').value);
+            
+            const payment = (amount * rate * Math.pow(1 + rate, term)) / (Math.pow(1 + rate, term) - 1);
+            
+            document.getElementById('payment-result').innerHTML = `
+                <p>Estimated Monthly Payment: <strong>$${payment.toFixed(2)}</strong></p>
+                <small>Disclaimer: This is an estimate only. Actual rates may vary.</small>
+            `;
+        });
+    }
+});
+</script>
+{% endblock %}

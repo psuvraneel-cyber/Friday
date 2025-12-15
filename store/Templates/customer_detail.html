@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+<section class="customer-detail">
+    <div class="container">
+        <div class="customer-header">
+            <h1>{{ customer.first_name }} {{ customer.last_name }}</h1>
+            <div class="customer-meta">
+                <span><i class="fas fa-envelope"></i> {{ customer.email }}</span>
+                <span><i class="fas fa-phone"></i> {{ customer.phone }}</span>
+                <span><i class="fas fa-map-marker-alt"></i> {{ customer.city }}, {{ customer.state }}</span>
+            </div>
+        </div>
+        
+        <div class="customer-actions">
+            <a href="{% url 'edit_customer' customer.id %}" class="btn btn-primary">Edit Profile</a>
+            <a href="{% url 'test_drive' %}" class="btn btn-accent">Schedule Test Drive</a>
+        </div>
+        
+        <div class="customer-content">
+            <div class="customer-info">
+                <h2>Customer Information</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Address:</span>
+                        <span class="value">{{ customer.address }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">City:</span>
+                        <span class="value">{{ customer.city }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">State:</span>
+                        <span class="value">{{ customer.state }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Zip Code:</span>
+                        <span class="value">{{ customer.zip_code }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Member Since:</span>
+                        <span class="value">{{ customer.date_created|date:"F d, Y" }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="customer-history">
+                <h2>Purchase History</h2>
+                {% if purchases %}
+                <div class="purchases-list">
+                    {% for purchase in purchases %}
+                    <div class="purchase-item">
+                        <div class="purchase-car">
+                            <img src="{{ purchase.car.main_image.url }}" alt="{{ purchase.car.make }} {{ purchase.car.model }}">
+                            <div class="car-info">
+                                <h3>{{ purchase.car.year }} {{ purchase.car.make }} {{ purchase.car.model }}</h3>
+                                <div class="car-price">${{ purchase.sale_price|intcomma }}</div>
+                            </div>
+                        </div>
+                        <div class="purchase-details">
+                            <div class="detail">
+                                <span class="label">Date:</span>
+                                <span class="value">{{ purchase.sale_date|date:"F d, Y" }}</span>
+                            </div>
+                            <div class="detail">
+                                <span class="label">Salesperson:</span>
+                                <span class="value">{{ purchase.sales_person.user.get_full_name }}</span>
+                            </div>
+                            <div class="detail">
+                                <span class="label">Payment Method:</span>
+                                <span class="value">{{ purchase.get_payment_method_display }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="no-results">No purchases yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

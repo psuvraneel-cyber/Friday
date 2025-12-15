@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extended Warranty | AutoElite Motors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a2a3a;
+            --secondary: #ff5e3a;
+            --accent: #4a6cf7;
+            --light: #f8fafc;
+            --dark: #121a24;
+            --success: #27ae60;
+            --gray: #94a3b8;
+            --light-gray: #f1f5f9;
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, #2c3e50 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, #ff7e5f 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, #6a82fb 100%);
+            --card-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #334155;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #2c3e50 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .logo i {
+            color: var(--secondary);
+        }
+        
+        nav {
+            background-color: white;
+            padding: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        nav li {
+            margin: 0 5px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: var(--transition);
+            font-size: 1.05rem;
+        }
+        
+        nav a:hover, nav a.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(26, 42, 58, 0.85), rgba(26, 42, 58, 0.85)), url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            margin: 40px 0;
+            border-radius: 15px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 34px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-align: center;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 10px 25px rgba(44, 62, 80, 0.25);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(44, 62, 80, 0.35);
+        }
+        
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            color: white;
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(231, 76, 60, 0.4);
+        }
+        
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .section h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--secondary);
+            font-size: 2.2rem;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section h2 i {
+            color: var(--secondary);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .feature {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .feature i {
+            font-size: 3.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        .feature h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .feature p {
+            color: var(--gray);
+        }
+        
+        .coverage-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .coverage-card {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .coverage-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .coverage-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--secondary);
+        }
+        
+        .coverage-card h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .coverage-card h3 i {
+            color: var(--secondary);
+        }
+        
+        .coverage-card ul {
+            list-style-type: none;
+        }
+        
+        .coverage-card li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 25px;
+            color: var(--gray);
+        }
+        
+        .coverage-card li::before {
+            content: '✓';
+            color: var(--secondary);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .benefit {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 25px;
+            background: var(--light);
+            border-radius: 15px;
+            transition: var(--transition);
+        }
+        
+        .benefit:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .benefit i {
+            color: var(--secondary);
+            font-size: 2rem;
+            margin-top: 5px;
+        }
+        
+        .benefit h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .benefit p {
+            color: var(--gray);
+        }
+        
+        .quote-form {
+            background: var(--light);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 18px 25px;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            background-color: white;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.2);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .testimonial {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .testimonial::before {
+            content: '"';
+            font-size: 6rem;
+            color: var(--secondary);
+            opacity: 0.1;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+            font-family: Georgia, serif;
+        }
+        
+        .testimonial p {
+            margin-bottom: 25px;
+            font-style: italic;
+            color: var(--primary);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .testimonial .author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .testimonial .author img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary);
+        }
+        
+        .testimonial .author-info {
+            line-height: 1.4;
+        }
+        
+        .testimonial .author-info strong {
+            color: var(--primary);
+            display: block;
+        }
+        
+        .testimonial .author-info span {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        .faq-section {
+            margin: 40px 0;
+        }
+        
+        .accordion {
+            margin: 25px 0;
+        }
+        
+        .accordion-item {
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .accordion-item:hover {
+            border-color: var(--accent);
+        }
+        
+        .accordion-header {
+            background: var(--light);
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .accordion-content.active {
+            padding: 25px;
+            max-height: 500px;
+        }
+        
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            color: var(--secondary);
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+        }
+        
+        .footer-section p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--secondary);
+            transform: translateX(10px);
+        }
+        
+        .footer-contact {
+            list-style: none;
+        }
+        
+        .footer-contact li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .footer-contact i {
+            color: var(--secondary);
+            font-size: 1.3rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+            font-size: 1.3rem;
+        }
+        
+        .social-icons a:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .features, .coverage-options, .benefits, .testimonials {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .quote-form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-car"></i>
+                <span>AutoElite Motors</span>
+            </div>
+            <p>Protect your investment with our comprehensive warranty plans</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'car_financing' %}">Car Financing</a></li>
+                <li><a href="{% url 'maintenance' %}">Maintenance</a></li>
+                <li><a href="{% url 'tradein' %}">Trade-In</a></li>
+                <li><a href="{% url 'extended_warranty' %}" class="active">Extended Warranty</a></li>
+                <li><a href="{% url 'contact_support' %}">Contact Support</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="hero">
+            <h1>Extended Warranty Protection</h1>
+            <p>Drive with confidence knowing your vehicle is protected against unexpected repair costs</p>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-shield-alt"></i> Protect Your Investment</h2>
+            <p>Our extended warranty plans provide peace of mind and financial protection against unexpected repair costs. With comprehensive coverage options and exceptional service, we ensure you can enjoy your vehicle without worrying about expensive repairs.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h3>Cost Protection</h3>
+                    <p>Avoid unexpected repair bills that can cost thousands of dollars</p>
+                </div>
+                
+                <div class="feature">
+                    <i class="fas fa-headset"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Access our support team anytime for claims and assistance</p>
+                </div>
+                
+                <div class="feature">
+                    <i class="fas fa-tools"></i>
+                    <h3>Quality Repairs</h3>
+                    <p>Get your vehicle repaired by certified technicians at trusted facilities</p>
+                </div>
+                
+                <div class="feature">
+                    <i class="fas fa-car-side"></i>
+                    <h3>Rental Coverage</h3>
+                    <p>Receive a rental car while your vehicle is being repaired</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-clipboard-list"></i> Warranty Coverage Options</h2>
+            <p>Choose from our comprehensive coverage plans designed to meet your specific needs and budget.</p>
+            
+            <div class="coverage-options">
+                <div class="coverage-card">
+                    <h3><i class="fas fa-cogs"></i> Powertrain Coverage</h3>
+                    <p>Protection for your vehicle's most critical components:</p>
+                    <ul>
+                        <li>Engine assembly</li>
+                        <li>Transmission</li>
+                        <li>Drive axles</li>
+                        <li>Turbocharger/Supercharger</li>
+                        <li>Seals and gaskets</li>
+                    </ul>
+                </div>
+                
+                <div class="coverage-card">
+                    <h3><i class="fas fa-car"></i> Bumper-to-Bumper</h3>
+                    <p>Our most comprehensive coverage plan:</p>
+                    <ul>
+                        <li>All powertrain components</li>
+                        <li>Air conditioning</li>
+                        <li>Electrical systems</li>
+                        <li>Steering and suspension</li>
+                        <li>Brakes and anti-lock systems</li>
+                    </ul>
+                </div>
+                
+                <div class="coverage-card">
+                    <h3><i class="fas fa-bolt"></i> Electrical Systems</h3>
+                    <p>Specialized coverage for modern vehicle electronics:</p>
+                    <ul>
+                        <li>Navigation and entertainment systems</li>
+                        <li>Power windows and locks</li>
+                        <li>Advanced driver assistance systems</li>
+                        <li>Hybrid/Electric vehicle components</li>
+                        <li>Sensor and camera systems</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-star"></i> Benefits of Our Extended Warranty</h2>
+            <p>Our warranty plans offer exceptional value and peace of mind for vehicle owners.</p>
+            
+            <div class="benefits">
+                <div class="benefit">
+                    <i class="fas fa-exchange-alt"></i>
+                    <div>
+                        <h3>Transferable Coverage</h3>
+                        <p>Increase your vehicle's resale value with transferable warranty coverage to the next owner.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <div>
+                        <h3>Nationwide Network</h3>
+                        <p>Access thousands of certified repair facilities across the country for convenient service.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h3>24/7 Claims Service</h3>
+                        <p>File claims anytime with our round-the-clock claims service and support team.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit">
+                    <i class="fas fa-truck-pickup"></i>
+                    <div>
+                        <h3>Roadside Assistance</h3>
+                        <p>Get help with towing, tire changes, lockout service, and fuel delivery when you need it most.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-comment-dots"></i> Customer Testimonials</h2>
+            <p>Hear what our customers have to say about their experience with our extended warranty plans.</p>
+            
+            <div class="testimonials">
+                <div class="testimonial">
+                    <p>"The extended warranty paid for itself when my transmission failed. The claims process was smooth, and I was back on the road in no time with minimal out-of-pocket expense."</p>
+                    <div class="author">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><rect width='60' height='60' fill='%231a2a3a'/><text x='30' y='40' font-family='Arial' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'>MR</text></svg>" alt="Michael Rodriguez">
+                        <div class="author-info">
+                            <strong>Michael Rodriguez</strong>
+                            <span>2018 Ford F-150 Owner</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <p>"I was skeptical about extended warranties, but this one proved its worth when my hybrid system needed expensive repairs. The coverage was comprehensive and the process was hassle-free."</p>
+                    <div class="author">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><rect width='60' height='60' fill='%23ff5e3a'/><text x='30' y='40' font-family='Arial' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'>SJ</text></svg>" alt="Sarah Johnson">
+                        <div class="author-info">
+                            <strong>Sarah Johnson</strong>
+                            <span>2020 Toyota Prius Owner</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <p>"The peace of mind is worth every penny. When my infotainment system failed, it was fully covered without any hassle. I recommend this warranty to all my friends and family."</p>
+                    <div class="author">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><rect width='60' height='60' fill='%234a6cf7'/><text x='30' y='40' font-family='Arial' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'>DW</text></svg>" alt="David Wilson">
+                        <div class="author-info">
+                            <strong>David Wilson</strong>
+                            <span>2019 BMW X5 Owner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Get a Quote</h2>
+            <p>Contact us to learn more about coverage options and pricing for your vehicle. Our specialists will help you find the perfect plan for your needs.</p>
+            
+            <div class="quote-form">
+                <form id="warrantyQuoteForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vehicleMake">Vehicle Make</label>
+                            <input type="text" id="vehicleMake" placeholder="e.g., Toyota, Ford, Honda" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vehicleModel">Vehicle Model</label>
+                            <input type="text" id="vehicleModel" placeholder="e.g., Camry, F-150, Civic" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vehicleYear">Vehicle Year</label>
+                            <input type="number" id="vehicleYear" min="1990" max="2023" placeholder="e.g., 2020" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vehicleMileage">Current Mileage</label>
+                            <input type="number" id="vehicleMileage" placeholder="e.g., 45000" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="coverageType">Preferred Coverage Type</label>
+                        <select id="coverageType" required>
+                            <option value="">Select coverage type</option>
+                            <option value="powertrain">Powertrain Coverage</option>
+                            <option value="bumper">Bumper-to-Bumper</option>
+                            <option value="electrical">Electrical Systems</option>
+                            <option value="notsure">Not Sure - Need Advice</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-secondary btn-large btn-block">Request Quote</button>
+                </form>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <p>Or speak directly with our warranty specialists</p>
+                <a href="{% url 'contact_support' %}" class="btn btn-primary">Contact Us</a>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>What is covered under an extended warranty?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Coverage varies by plan, but typically includes major components like engine, transmission, drivetrain, electrical systems, and more. Our bumper-to-bumper coverage offers the most comprehensive protection, while powertrain plans focus on essential components.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Can I use my own mechanic?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Yes, you can choose any licensed repair facility. However, for the claims process to be most efficient, we recommend using one of our certified repair facilities within our nationwide network.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>How long does the coverage last?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Coverage terms vary based on the plan you select. We offer options ranging from 2 to 7 years of additional coverage beyond the manufacturer's warranty, or specific mileage limits up to 150,000 miles.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Are there any deductibles?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Yes, most plans have a deductible that you pay per repair visit. We offer deductible options ranging from $0 to $200, allowing you to choose a plan that fits your budget and needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AutoElite Motors</h3>
+                    <p>Your trusted partner for all automotive needs, from financing to maintenance and beyond.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="{% url 'car_financing' %}"><i class="fas fa-chevron-right"></i> Car Financing</a></li>
+                        <li><a href="{% url 'maintenance' %}"><i class="fas fa-chevron-right"></i> Maintenance</a></li>
+                        <li><a href="{% url 'tradein' %}"><i class="fas fa-chevron-right"></i> Trade-In</a></li>
+                        <li><a href="{% url 'extended_warranty' %}"><i class="fas fa-chevron-right"></i> Extended Warranty</a></li>
+                        <li><a href="{% url 'contact_support' %}"><i class="fas fa-chevron-right"></i> Contact Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Automotive Way, Detroit, MI 48201</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>(123) 456-7890</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>info@autoelite.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Mon-Fri: 9:00 AM - 8:00 PM | Sat-Sun: 10:00 AM - 6:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 AutoElite Motors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up accordion functionality
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const isActive = content.classList.contains('active');
+                    
+                    // Close all accordion items
+                    document.querySelectorAll('.accordion-content').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    document.querySelectorAll('.accordion-header i').forEach(icon => {
+                        icon.className = 'fas fa-chevron-down';
+                    });
+                    
+                    // Open clicked item if it wasn't already active
+                    if (!isActive) {
+                        content.classList.add('active');
+                        this.querySelector('i').className = 'fas fa-chevron-up';
+                    }
+                });
+            });
+            
+            // Form submission handling
+            const quoteForm = document.getElementById('warrantyQuoteForm');
+            
+            quoteForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const make = document.getElementById('vehicleMake').value;
+                const model = document.getElementById('vehicleModel').value;
+                const year = document.getElementById('vehicleYear').value;
+                const mileage = document.getElementById('vehicleMileage').value;
+                const coverage = document.getElementById('coverageType').value;
+                
+                // In a real application, you would send this data to a server
+                // For this example, we'll show a confirmation message
+                alert(`Thank you for your quote request!\nWe'll contact you shortly with coverage options for your ${year} ${make} ${model}.`);
+                
+                // Reset form
+                quoteForm.reset();
+            });
+            
+            // Add animation to elements on scroll
+            const animatedElements = document.querySelectorAll('.feature, .coverage-card, .benefit, .testimonial');
+            
+            function checkScroll() {
+                animatedElements.forEach(element => {
+                    const position = element.getBoundingClientRect();
+                    
+                    // If element is in viewport
+                    if (position.top < window.innerHeight - 100) {
+                        element.style.opacity = 1;
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            // Initialize elements with hidden state
+            animatedElements.forEach(element => {
+                element.style.opacity = 0;
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            });
+            
+            // Check scroll position on load and scroll
+            window.addEventListener('load', checkScroll);
+            window.addEventListener('scroll', checkScroll);
+            
+            // Initial check
+            checkScroll();
+        });
+    </script>
+</body>
+</html>

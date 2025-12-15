@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="car-form-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>{% if form.instance.id %}Edit{% else %}Add{% endif %} Vehicle</h2>
+            <p>{% if form.instance.id %}Update{% else %}Add new{% endif %} vehicle to inventory</p>
+        </div>
+        
+        <form method="post" enctype="multipart/form-data" class="car-form">
+            {% csrf_token %}
+            
+            <div class="form-columns">
+                <div class="form-column">
+                    <h3>Basic Information</h3>
+                    <div class="form-group">
+                        {{ form.make.label_tag }}
+                        {{ form.make }}
+                        {{ form.make.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.model.label_tag }}
+                        {{ form.model }}
+                        {{ form.model.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.year.label_tag }}
+                        {{ form.year }}
+                        {{ form.year.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.VIN.label_tag }}
+                        {{ form.VIN }}
+                        {{ form.VIN.errors }}
+                    </div>
+                </div>
+                
+                <div class="form-column">
+                    <h3>Vehicle Details</h3>
+                    <div class="form-group">
+                        {{ form.category.label_tag }}
+                        {{ form.category }}
+                        {{ form.category.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.transmission.label_tag }}
+                        {{ form.transmission }}
+                        {{ form.transmission.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.fuel_type.label_tag }}
+                        {{ form.fuel_type }}
+                        {{ form.fuel_type.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.mileage.label_tag }}
+                        {{ form.mileage }}
+                        {{ form.mileage.errors }}
+                    </div>
+                </div>
+                
+                <div class="form-column">
+                    <h3>Pricing & Status</h3>
+                    <div class="form-group">
+                        {{ form.price.label_tag }}
+                        {{ form.price }}
+                        {{ form.price.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.discount.label_tag }}
+                        {{ form.discount }}
+                        {{ form.discount.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.status.label_tag }}
+                        {{ form.status }}
+                        {{ form.status.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.is_featured.label_tag }}
+                        {{ form.is_featured }}
+                        {{ form.is_featured.errors }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                {{ form.description.label_tag }}
+                {{ form.description }}
+                {{ form.description.errors }}
+            </div>
+            
+            <div class="form-group">
+                <h3>Images</h3>
+                <div class="image-upload-grid">
+                    <div class="image-upload-box">
+                        <label for="{{ form.main_image.id_for_label }}">Main Image*</label>
+                        {{ form.main_image }}
+                        {{ form.main_image.errors }}
+                    </div>
+                    <div class="image-upload-box">
+                        <label for="{{ form.image_1.id_for_label }}">Image 2</label>
+                        {{ form.image_1 }}
+                        {{ form.image_1.errors }}
+                    </div>
+                    <div class="image-upload-box">
+                        <label for="{{ form.image_2.id_for_label }}">Image 3</label>
+                        {{ form.image_2 }}
+                        {{ form.image_2.errors }}
+                    </div>
+                    <div class="image-upload-box">
+                        <label for="{{ form.image_3.id_for_label }}">Image 4</label>
+                        {{ form.image_3 }}
+                        {{ form.image_3.errors }}
+                    </div>
+                    <div class="image-upload-box">
+                        <label for="{{ form.image_4.id_for_label }}">Image 5</label>
+                        {{ form.image_4 }}
+                        {{ form.image_4.errors }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <h3>Features</h3>
+                <div class="features-select">
+                    {{ form.features }}
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save Vehicle</button>
+                <a href="{% url 'car_list' %}" class="btn btn-light">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.car-form-section {
+    padding: 60px 0;
+}
+.form-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.image-upload-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+.image-upload-box {
+    border: 2px dashed #ddd;
+    padding: 20px;
+    text-align: center;
+    border-radius: 4px;
+}
+.form-actions {
+    margin-top: 30px;
+    text-align: right;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance Services | AutoElite Motors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a2a3a;
+            --secondary: #ff5e3a;
+            --accent: #4a6cf7;
+            --light: #f8fafc;
+            --dark: #121a24;
+            --success: #27ae60;
+            --gray: #94a3b8;
+            --light-gray: #f1f5f9;
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, #2c3e50 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, #ff7e5f 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, #6a82fb 100%);
+            --card-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #334155;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #2c3e50 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .logo i {
+            color: var(--secondary);
+        }
+        
+        nav {
+            background-color: white;
+            padding: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        nav li {
+            margin: 0 5px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: var(--transition);
+            font-size: 1.05rem;
+        }
+        
+        nav a:hover, nav a.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(26, 42, 58, 0.85), rgba(26, 42, 58, 0.85)), url('https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            margin: 40px 0;
+            border-radius: 15px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 34px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-align: center;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 10px 25px rgba(44, 62, 80, 0.25);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(44, 62, 80, 0.35);
+        }
+        
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            color: white;
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(231, 76, 60, 0.4);
+        }
+        
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .section h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--secondary);
+            font-size: 2.2rem;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section h2 i {
+            color: var(--secondary);
+        }
+        
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .step {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            background: var(--secondary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            box-shadow: 0 5px 15px rgba(255, 94, 58, 0.3);
+        }
+        
+        .step i {
+            font-size: 3.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        .step h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .step p {
+            color: var(--gray);
+        }
+        
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .service {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .service:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .service i {
+            font-size: 3.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        .service h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .service p {
+            color: var(--gray);
+        }
+        
+        .packages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .package {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .package.popular {
+            border: 2px solid var(--secondary);
+            transform: scale(1.03);
+        }
+        
+        .package.popular::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--secondary);
+            color: white;
+            padding: 10px 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 0 0 0 15px;
+        }
+        
+        .package:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .package.popular:hover {
+            transform: scale(1.03) translateY(-10px);
+        }
+        
+        .package h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .package .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        .package .price span {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: normal;
+        }
+        
+        .package ul {
+            list-style-type: none;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+        
+        .package li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 25px;
+            text-align: left;
+            color: var(--gray);
+        }
+        
+        .package li::before {
+            content: '✓';
+            color: var(--secondary);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .package li.excluded {
+            color: #ccc;
+            text-decoration: line-through;
+        }
+        
+        .package li.excluded::before {
+            content: '✗';
+            color: #ccc;
+        }
+        
+        .schedule-form {
+            background: var(--light);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 18px 25px;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            background-color: white;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.2);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .testimonial {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .testimonial::before {
+            content: '"';
+            font-size: 6rem;
+            color: var(--secondary);
+            opacity: 0.1;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+            font-family: Georgia, serif;
+        }
+        
+        .testimonial p {
+            margin-bottom: 25px;
+            font-style: italic;
+            color: var(--primary);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .testimonial .author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .testimonial .author img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary);
+        }
+        
+        .testimonial .author-info {
+            line-height: 1.4;
+        }
+        
+        .testimonial .author-info strong {
+            color: var(--primary);
+            display: block;
+        }
+        
+        .testimonial .author-info span {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        .faq-section {
+            margin: 40px 0;
+        }
+        
+        .accordion {
+            margin: 25px 0;
+        }
+        
+        .accordion-item {
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .accordion-item:hover {
+            border-color: var(--accent);
+        }
+        
+        .accordion-header {
+            background: var(--light);
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .accordion-content.active {
+            padding: 25px;
+            max-height: 500px;
+        }
+        
+        .comparison {
+            margin: 40px 0;
+            overflow-x: auto;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .comparison-table th {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .comparison-table .feature {
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .comparison-table .check {
+            color: var(--success);
+            font-size: 1.5rem;
+        }
+        
+        .comparison-table .cross {
+            color: #ccc;
+            font-size: 1.5rem;
+        }
+        
+        .purchase-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .close-modal:hover {
+            color: var(--accent);
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .success-message i {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--success);
+        }
+        
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            color: var(--secondary);
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+        }
+        
+        .footer-section p {
+            opacity: 0.8;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--secondary);
+            transform: translateX(10px);
+        }
+        
+        .footer-contact {
+            list-style: none;
+        }
+        
+        .footer-contact li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .footer-contact i {
+            color: var(--secondary);
+            font-size: 1.3rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+            font-size: 1.3rem;
+        }
+        
+        .social-icons a:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .process-steps, .services, .packages, .testimonials {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .schedule-form {
+                padding: 30px 20px;
+            }
+            
+            .comparison {
+                overflow-x: auto;
+            }
+            
+            .comparison-table {
+                min-width: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-car"></i>
+                <span>AutoElite Motors</span>
+            </div>
+            <p>Keep your vehicle running at its best with our maintenance services</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'car_financing' %}">Car Financing</a></li>
+                <li><a href="{% url 'maintenance' %}" class="active">Maintenance</a></li>
+                <li><a href="{% url 'tradein' %}">Trade-In</a></li>
+                <li><a href="{% url 'extended_warranty' %}">Extended Warranty</a></li>
+                <li><a href="{% url 'contact_support' %}">Contact Support</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="hero">
+            <h1>Professional Maintenance Services</h1>
+            <p>Keep your vehicle running smoothly and safely with our comprehensive maintenance services</p>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-cog"></i> Keep Your Vehicle Running Smoothly</h2>
+            <p>Regular maintenance is essential for the longevity and performance of your vehicle. Our certified technicians use state-of-the-art equipment to ensure your car receives the best care possible.</p>
+            
+            <div class="services">
+                <div class="service">
+                    <i class="fas fa-oil-can"></i>
+                    <h3>Oil Changes & Fluid Checks</h3>
+                    <p>Regular oil changes and comprehensive fluid inspections to keep your engine running smoothly.</p>
+                </div>
+                
+                <div class="service">
+                    <i class="fas fa-stop-circle"></i>
+                    <h3>Brake Inspection & Replacement</h3>
+                    <p>Complete brake system inspection and quality replacement parts for your safety.</p>
+                </div>
+                
+                <div class="service">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h3>Tire Rotation & Replacement</h3>
+                    <p>Proper tire maintenance for better traction, handling, and extended tire life.</p>
+                </div>
+                
+                <div class="service">
+                    <i class="fas fa-tools"></i>
+                    <h3>Engine Diagnostics & Repair</h3>
+                    <p>Advanced diagnostic tools to identify and fix engine issues efficiently.</p>
+                </div>
+                
+                <div class="service">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Scheduled Maintenance Programs</h3>
+                    <p>Customized maintenance schedules based on your vehicle's make and model.</p>
+                </div>
+                
+                <div class="service">
+                    <i class="fas fa-air-freshener"></i>
+                    <h3>Air Conditioning Service</h3>
+                    <p>AC system inspection, recharge, and repair to keep you comfortable in all seasons.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-box-open"></i> Maintenance Packages</h2>
+            <p>We offer tiered maintenance packages to suit your needs and budget. All packages include a multi-point inspection and complimentary car wash.</p>
+            
+            <div class="packages">
+                <div class="package">
+                    <h3>Basic Care</h3>
+                    <div class="price">$89<span>/service</span></div>
+                    <ul>
+                        <li>Oil change and filter replacement</li>
+                        <li>Fluid level checks and top-off</li>
+                        <li>Tire pressure check and adjustment</li>
+                        <li>Visual brake inspection</li>
+                        <li>Battery test</li>
+                        <li class="excluded">Air filter replacement</li>
+                        <li class="excluded">Cabin air filter replacement</li>
+                    </ul>
+                    <button class="btn btn-secondary btn-block" data-plan="Basic Care" data-price="89">Select Plan</button>
+                </div>
+                
+                <div class="package popular">
+                    <h3>Complete Care</h3>
+                    <div class="price">$149<span>/service</span></div>
+                    <ul>
+                        <li>Everything in Basic Care</li>
+                        <li>Air filter replacement</li>
+                        <li>Cabin air filter replacement</li>
+                        <li>Brake inspection with measurement</li>
+                        <li>Tire rotation</li>
+                        <li>Light bulb check</li>
+                        <li class="excluded">Fuel system cleaning</li>
+                    </ul>
+                    <button class="btn btn-secondary btn-block" data-plan="Complete Care" data-price="149">Select Plan</button>
+                </div>
+                
+                <div class="package">
+                    <h3>Premium Care</h3>
+                    <div class="price">$229<span>/service</span></div>
+                    <ul>
+                        <li>Everything in Complete Care</li>
+                        <li>Fuel system cleaning</li>
+                        <li>Throttle body service</li>
+                        <li>Wheel alignment check</li>
+                        <li>Detailed vehicle health report</li>
+                        <li>20% discount on repairs</li>
+                        <li>Complimentary loaner vehicle</li>
+                    </ul>
+                    <button class="btn btn-secondary btn-block" data-plan="Premium Care" data-price="229">Select Plan</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-compress-alt"></i> Plan Comparison</h2>
+            <p>Compare our maintenance plans to see which one offers the best value for your needs.</p>
+            
+            <div class="comparison">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Basic Care</th>
+                            <th>Complete Care</th>
+                            <th>Premium Care</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature">Oil change and filter replacement</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Fluid level checks and top-off</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Tire pressure check and adjustment</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Visual brake inspection</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Battery test</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Air filter replacement</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Cabin air filter replacement</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Brake inspection with measurement</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Tire rotation</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Fuel system cleaning</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Throttle body service</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Wheel alignment check</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                        </tr>
+                        <tr>
+                            <td class="feature">Complimentary loaner vehicle</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✓</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-calendar-check"></i> Schedule Appointment</h2>
+            <p>Book your appointment online or contact our service department. We offer flexible scheduling to fit your busy life.</p>
+            
+            <div class="schedule-form">
+                <form id="scheduleForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" placeholder="Enter your full name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="Enter your email address" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" placeholder="Enter your phone number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vehicle">Vehicle Information</label>
+                            <input type="text" id="vehicle" placeholder="Year, Make, Model" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="service">Service Type</label>
+                            <select id="service" required>
+                                <option value="">Select a service</option>
+                                <option value="oil">Oil Change</option>
+                                <option value="brakes">Brake Service</option>
+                                <option value="tires">Tire Service</option>
+                                <option value="inspection">Vehicle Inspection</option>
+                                <option value="package">Maintenance Package</option>
+                                <option value="other">Other Service</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="date">Preferred Date</label>
+                            <input type="date" id="date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="time">Preferred Time</label>
+                            <select id="time" required>
+                                <option value="">Select a time</option>
+                                <option value="morning">Morning (8am - 11am)</option>
+                                <option value="afternoon">Afternoon (11am - 3pm)</option>
+                                <option value="late">Late Afternoon (3pm - 6pm)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Additional Notes</label>
+                            <textarea id="message" rows="3" placeholder="Any specific concerns or requests"></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-secondary btn-large btn-block">Schedule Appointment</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-comments"></i> Customer Testimonials</h2>
+            <p>Hear what our customers have to say about their experience with our maintenance services.</p>
+            
+            <div class="testimonials">
+                <div class="testimonial">
+                    <p>"I've been taking my cars to AutoElite Motors for years. Their maintenance packages have saved me from costly repairs down the road. The staff is always professional and the work is top-notch."</p>
+                    <div class="author">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><rect width='60' height='60' fill='%231a2a3a'/><text x='30' y='40' font-family='Arial' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'>JR</text></svg>" alt="James Robinson">
+                        <div class="author-info">
+                            <strong>James Robinson</strong>
+                            <span>Regular Customer Since 2018</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <p>"The Complete Care package is worth every penny. They caught an issue with my brakes during a routine service that could have been dangerous. I trust them completely with my vehicle."</p>
+                    <div class="author">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><rect width='60' height='60' fill='%23ff5e3a'/><text x='30' y='40' font-family='Arial' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'>LT</text></svg>" alt="Lisa Thompson">
+                        <div class="author-info">
+                            <strong>Lisa Thompson</strong>
+                            <span>Honda CR-V Owner</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <p>"Scheduling service online was so convenient. They confirmed my appointment quickly and had my car ready exactly when promised. The quality of service exceeded my expectations."</p>
+                    <div class="author">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><rect width='60' height='60' fill='%234a6cf7'/><text x='30' y='40' font-family='Arial' font-size='24' fill='white' text-anchor='middle' dominant-baseline='middle'>MP</text></svg>" alt="Michael Patel">
+                        <div class="author-info">
+                            <strong>Michael Patel</strong>
+                            <span>Toyota Camry Owner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            
+            <div class="faq-section">
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>How often should I get my oil changed?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>For most modern vehicles, we recommend changing your oil every 5,000 to 7,500 miles. However, this can vary based on your driving habits, vehicle age, and the type of oil used. Check your owner's manual for manufacturer recommendations, or consult with our technicians for personalized advice.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>What's included in a multi-point inspection?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Our multi-point inspection covers over 30 key components of your vehicle, including brakes, tires, suspension, steering, exhaust system, belts, hoses, fluids, lights, and filters. This comprehensive check helps identify potential issues before they become major problems, saving you time and money in the long run.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>How long does a typical service appointment take?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Most basic services like oil changes take about 30-45 minutes. More comprehensive services like brake work or tire rotations typically take 1-2 hours. For major services or repairs, we'll provide you with a time estimate when you schedule your appointment. We also offer shuttle service and loaner vehicles for longer repairs.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Do you use OEM (Original Equipment Manufacturer) parts?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>We offer both OEM parts and high-quality aftermarket parts. Our technicians will discuss the options with you and recommend the best choice for your vehicle and budget. All parts we install come with a warranty for your peace of mind.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i>
+            <h3>Payment Successful!</h3>
+            <p>Thank you for purchasing our <span id="successPlanName">Complete Care</span> maintenance plan. We've sent a confirmation email with your plan details.</p>
+            <p>Your plan ID: <strong id="planId">PS-789456123</strong></p>
+            <a href="{% url 'maintenance' %}" class="btn btn-primary">Back to Maintenance Services</a>
+        </div>
+    </div>
+    
+    <div class="purchase-modal" id="purchaseModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2>Purchase <span id="modalPlanName">Complete Care</span></h2>
+            <p>Please provide your information to complete your purchase.</p>
+            
+            <form id="purchaseForm">
+                <input type="hidden" id="selectedPlan" value="">
+                <input type="hidden" id="selectedPrice" value="">
+                
+                <div class="form-group">
+                    <label for="purchaseName">Full Name</label>
+                    <input type="text" id="purchaseName" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purchaseEmail">Email Address</label>
+                    <input type="email" id="purchaseEmail" placeholder="Enter your email address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purchasePhone">Phone Number</label>
+                    <input type="tel" id="purchasePhone" placeholder="Enter your phone number" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="purchaseVehicle">Vehicle Information</label>
+                    <input type="text" id="purchaseVehicle" placeholder="Year, Make, Model" required>
+                </div>
+                
+                <button type="button" id="payButton" class="btn btn-secondary btn-large btn-block">Pay Now - $<span id="modalPrice">149</span></button>
+            </form>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AutoElite Motors</h3>
+                    <p>Your trusted partner for all automotive needs, from financing to maintenance and beyond.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="{% url 'car_financing' %}"><i class="fas fa-chevron-right"></i> Car Financing</a></li>
+                        <li><a href="{% url 'maintenance' %}"><i class="fas fa-chevron-right"></i> Maintenance</a></li>
+                        <li><a href="{% url 'tradein' %}"><i class="fas fa-chevron-right"></i> Trade-In</a></li>
+                        <li><a href="{% url 'extended_warranty' %}"><i class="fas fa-chevron-right"></i> Extended Warranty</a></li>
+                        <li><a href="{% url 'contact_support' %}"><i class="fas fa-chevron-right"></i> Contact Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Automotive Way, Detroit, MI 48201</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>(123) 456-7890</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>info@autoelite.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Mon-Fri: 9:00 AM - 8:00 PM | Sat-Sun: 10:00 AM - 6:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 AutoElite Motors. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up accordion functionality
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const isActive = content.classList.contains('active');
+                    
+                    // Close all accordion items
+                    document.querySelectorAll('.accordion-content').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    document.querySelectorAll('.accordion-header i').forEach(icon => {
+                        icon.className = 'fas fa-chevron-down';
+                    });
+                    
+                    // Open clicked item if it wasn't already active
+                    if (!isActive) {
+                        content.classList.add('active');
+                        this.querySelector('i').className = 'fas fa-chevron-up';
+                    }
+                });
+            });
+            
+            // Form submission handling
+            const scheduleForm = document.getElementById('scheduleForm');
+            
+            scheduleForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const vehicle = document.getElementById('vehicle').value;
+                const service = document.getElementById('service').value;
+                const date = document.getElementById('date').value;
+                const time = document.getElementById('time').value;
+                
+                // In a real application, you would send this data to a server
+                // For this example, we'll show a confirmation message
+                alert(`Thank you, ${name}! Your appointment for ${service} on ${date} during the ${time} has been requested. We'll contact you at ${phone} or ${email} to confirm.`);
+                
+                // Reset form
+                scheduleForm.reset();
+            });
+            
+            // Set minimum date to today for the date picker
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').setAttribute('min', today);
+            
+            // Modal elements
+            const modal = document.getElementById('purchaseModal');
+            const closeModalBtn = document.getElementById('closeModal');
+            const planNameElement = document.getElementById('modalPlanName');
+            const planPriceElement = document.getElementById('modalPrice');
+            const selectedPlanInput = document.getElementById('selectedPlan');
+            const selectedPriceInput = document.getElementById('selectedPrice');
+            const payButton = document.getElementById('payButton');
+            const successMessage = document.getElementById('successMessage');
+            const successPlanName = document.getElementById('successPlanName');
+            const planIdElement = document.getElementById('planId');
+            
+            // Plan selection buttons
+            const planButtons = document.querySelectorAll('.package .btn');
+            
+            // Open modal when a plan is selected
+            planButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const plan = this.getAttribute('data-plan');
+                    const price = this.getAttribute('data-price');
+                    
+                    // Update modal content
+                    planNameElement.textContent = plan;
+                    planPriceElement.textContent = price;
+                    selectedPlanInput.value = plan;
+                    selectedPriceInput.value = price;
+                    
+                    // Show modal
+                    modal.style.display = 'flex';
+                });
+            });
+            
+            // Close modal
+            closeModalBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Close modal if clicked outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Function to get CSRF token
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            
+            // Payment processing
+            payButton.addEventListener('click', function() {
+                const name = document.getElementById('purchaseName').value;
+                const email = document.getElementById('purchaseEmail').value;
+                const phone = document.getElementById('purchasePhone').value;
+                const vehicle = document.getElementById('purchaseVehicle').value;
+                const plan = selectedPlanInput.value;
+                const price = selectedPriceInput.value;
+                
+                // Basic validation
+                if (!name || !email || !phone || !vehicle) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                // First create an order on your server
+                fetch('/create-order/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        plan: plan,
+                        amount: price * 100, // Convert to paise
+                        currency: 'INR'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('Error: ' + data.error);
+                        return;
+                    }
+                    
+                    // Now open Razorpay with the order ID
+                    const options = {
+                        "key": "rzp_test_R7Z5CIbifhdbdA",
+                        "amount": data.amount,
+                        "currency": data.currency,
+                        "name": "AutoElite Motors",
+                        "description": `${plan} Maintenance Plan`,
+                        "image": "https://example.com/your_logo.jpg",
+                        "order_id": data.id,
+                        "handler": function(response) {
+                            // Verify payment on server
+                            fetch('/payment-success/', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRFToken': getCookie('csrftoken')
+                                },
+                                body: JSON.stringify({
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_signature: response.razorpay_signature,
+                                    plan: plan,
+                                    name: name,
+                                    email: email,
+                                    phone: phone,
+                                    vehicle: vehicle
+                                })
+                            })
+                            .then(res => res.json())
+                            .then(verificationData => {
+                                if (verificationData.success) {
+                                    modal.style.display = 'none';
+                                    successPlanName.textContent = plan;
+                                    planIdElement.textContent = 'PS-' + Math.floor(100000000 + Math.random() * 900000000);
+                                    successMessage.style.display = 'block';
+                                    successMessage.scrollIntoView({ behavior: 'smooth' });
+                                } else {
+                                    alert('Payment verification failed: ' + verificationData.error);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Payment verification failed. Please contact support.');
+                            });
+                        },
+                        "prefill": {
+                            "name": name,
+                            "email": email,
+                            "contact": phone
+                        },
+                        "notes": {
+                            "plan": plan,
+                            "vehicle": vehicle
+                        },
+                        "theme": {
+                            "color": "#ff5e3a"
+                        }
+                    };
+                    
+                    const rzp = new Razorpay(options);
+                    rzp.open();
+                    
+                    // Handle payment failure
+                    rzp.on('payment.failed', function(response) {
+                        alert('Payment failed. Please try again. Error: ' + response.error.description);
+                        console.error(response.error);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            });
+            
+            // Add animation to services and packages on scroll
+            const services = document.querySelectorAll('.service, .package');
+            
+            function checkScroll() {
+                services.forEach(service => {
+                    const position = service.getBoundingClientRect();
+                    
+                    // If element is in viewport
+                    if (position.top < window.innerHeight - 100) {
+                        service.style.opacity = 1;
+                        service.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            // Initialize elements with hidden state
+            services.forEach(service => {
+                service.style.opacity = 0;
+                service.style.transform = 'translateY(20px)';
+                service.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            });
+            
+            // Check scroll position on load and scroll
+            window.addEventListener('load', checkScroll);
+            window.addEventListener('scroll', checkScroll);
+            
+            // Initial check
+            checkScroll();
+        });
+    </script>
+</body>
+</html>
