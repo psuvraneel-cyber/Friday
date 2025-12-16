@@ -62,7 +62,10 @@ ROOT_URLCONF = 'Friday.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+		'DIRS': [
+			BASE_DIR / 'templates',              # project-level templates (if any)
+			BASE_DIR / 'store' / 'Templates',    # app templates folder in repo (case-sensitive on Linux)
+		],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
