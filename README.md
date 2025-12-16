@@ -142,16 +142,6 @@ SECURE_SSL_REDIRECT=False
    - `RAZORPAY_KEY_SECRET`
 7. Deploy!
 
-### Deploy to Railway
-
-1. Push your code to GitHub
-2. Go to [Railway Dashboard](https://railway.app)
-3. Click **New Project** → **Deploy from GitHub repo**
-4. Select your repository
-5. Railway will auto-detect the `railway.json` and `nixpacks.toml` configuration
-6. Set environment variables in Railway dashboard
-7. Deploy!
-
 ## 💳 Razorpay Test Mode
 
 This project uses Razorpay in **TEST MODE** for payment processing.
