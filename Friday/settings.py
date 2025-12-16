@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,16 +22,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-wel7=@+abjf$9x=q!u3&p*7dz5apfw2wz@(u-9nh-0lz3lx+ru')
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-wel7=@+abjf$9x=q!u3&p*7dz5apfw2wz@(u-9nh-0lz3lx+ru')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Set DEBUG=False in production environment variables
-DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 'yes')
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 
-# Add Railway domain
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http://127.0.0.1').split(',')
+# Add Render/Railway domain
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://localhost,http://127.0.0.1', cast=Csv())
 
 
 # Application definition
@@ -146,12 +147,12 @@ ADMIN_URL = 'admin/'
 # Razorpay configuration - TEST MODE for college exam
 # These are test keys that work with Razorpay's test environment
 # No real money is processed - use test card: 4111 1111 1111 1111
-RAZORPAY_KEY_ID = 'rzp_test_R7Z5CIbifhdbdA'
-RAZORPAY_KEY_SECRET = 'HegvkvAJR5H1262XZX4dQgLt'
+RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID', default='rzp_test_R7Z5CIbifhdbdA')
+RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET', default='HegvkvAJR5H1262XZX4dQgLt')
 
 # Security settings for production
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'True').lower() in ('true', '1', 'yes')
+    SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
