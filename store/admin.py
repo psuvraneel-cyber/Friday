@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 from .models import (
     Car, Customer, 
     SalesPerson, TestDrive,
-    Service, Testimonial, Inquiry,
+    Service, Inquiry,
     NewsletterSubscriber
 )
 from django.template.response import TemplateResponse
@@ -124,7 +124,6 @@ admin.site.register(Car, CarAdmin)
 admin.site.register(SalesPerson)
 admin.site.register(Sale)
 admin.site.register(Service)
-admin.site.register(Testimonial)
 admin.site.register(Inquiry)
 
 

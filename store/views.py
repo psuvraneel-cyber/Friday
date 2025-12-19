@@ -35,10 +35,10 @@ from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
-from .models import Car, Customer, Sale, TestDrive, Testimonial, CarFeature, Service, Inquiry
+from .models import Car, Customer, Sale, TestDrive, CarFeature, Service, Inquiry
 from .forms import (
     CarForm, CustomerForm, SaleForm, TestDriveForm, 
-    InquiryForm, TestimonialForm, LoginForm, SignUpForm)
+    InquiryForm, LoginForm, SignUpForm)
 from django.urls import reverse
 from django.contrib.admin.views.decorators import staff_member_required
 
@@ -47,13 +47,10 @@ from django.contrib.admin.views.decorators import staff_member_required
 def home(request):
     featured_cars = Car.objects.filter(is_featured=True, status='available')[:3]
     services = Service.objects.filter(is_featured=True)[:4]
-    testimonials = Testimonial.objects.filter(approved=True)[:3]
-    
     
     context = {
         'featured_cars': featured_cars,
         'services': services,
-        'testimonials': testimonials,
     }
     return render(request, 'home.html', context)
 
@@ -98,12 +95,9 @@ def car_detail(request, car_id):
         status='available'
     ).exclude(id=car.id)[:3]
     
-    testimonials = Testimonial.objects.filter(car=car, approved=True)[:3]
-    
     context = {
         'car': car,
         'similar_cars': similar_cars,
-        'testimonials': testimonials,
     }
     return render(request, 'car_detail.html', context)
 
@@ -386,34 +380,6 @@ def inquiry(request):
     
     context = {'form': form}
     return render(request, 'inquiry.html', context)
-
-def add_testimonial(request):
-    if request.method == 'POST':
-        form = TestimonialForm(request.POST)
-        if form.is_valid():
-            testimonial = form.save(commit=False)
-            
-            # Associate with logged-in customer if available
-            if request.user.is_authenticated and hasattr(request.user, 'customer'):
-                testimonial.customer = request.user.customer
-            
-            testimonial.save()
-            messages.success(request, 'Thank you for your testimonial! It will be reviewed soon.')
-            return redirect('home')
-    else:
-        car_id = request.GET.get('car')
-        initial = {}
-        if car_id:
-            try:
-                car = Car.objects.get(id=car_id)
-                initial['car'] = car
-            except Car.DoesNotExist:
-                pass
-        
-        form = TestimonialForm(initial=initial)
-    
-    context = {'form': form}
-    return render(request, 'add_testimonial.html', context)
 
 def login_view(request):
     if request.user.is_authenticated:

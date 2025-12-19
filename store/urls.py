@@ -45,7 +45,6 @@ urlpatterns = [
     path('test_drive/<int:car_id>/', views.schedule_test_drive, name='test_drive'),  # Required
     # Forms
     path('inquiry/', views.inquiry, name='inquiry'),
-    path('testimonial/', views.add_testimonial, name='add_testimonial'),
     
     # Authentication
     path('login/', views.login_view, name='login'),

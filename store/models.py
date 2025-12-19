@@ -143,22 +143,6 @@ class Service(models.Model):
     def __str__(self):
         return self.name
 
-class Testimonial(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True, blank=True)
-    content = models.TextField()
-    rating = models.PositiveIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)]
-    )
-    approved = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        ordering = ['-created_at']
-    
-    def __str__(self):
-        return f"Testimonial by {self.customer}"
-
 class Inquiry(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()

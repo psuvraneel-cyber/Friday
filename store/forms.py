@@ -4,7 +4,7 @@ from .models import ( NewsletterSubscriber)
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
-from .models import Car, Customer, Sale, TestDrive, Testimonial, Inquiry
+from .models import Car, Customer, Sale, TestDrive, Inquiry
         
 class Meta:
         model = TestDrive
@@ -92,14 +92,6 @@ class TestDriveForm(forms.ModelForm):
         fields = ['customer_name', 'customer_email', 'customer_phone', 
                  'car', 'scheduled_date', 'notes']
 
-
-class TestimonialForm(forms.ModelForm):
-    class Meta:
-        model = Testimonial
-        fields = ['car', 'content', 'rating']
-        widgets = {
-            'content': forms.Textarea(attrs={'rows': 5}),
-        }
 
 class InquiryForm(forms.ModelForm):
     class Meta:
